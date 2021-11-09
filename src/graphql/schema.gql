@@ -2,6 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+"""Delete succesfull"""
+type MessageResponseDto {
+  message: String!
+}
+
 """Product model"""
 type Product {
   id: ID!
@@ -30,4 +35,18 @@ type Category {
 type Query {
   products: [Product!]!
   categories: [Category!]!
+}
+
+type Mutation {
+  createCategory(input: CreateCategoryDto!): Category!
+  updateCategory(input: UpdateCategoryDto!): Category!
+  deleteCategory(input: String!): MessageResponseDto!
+}
+
+input CreateCategoryDto {
+  name: String
+}
+
+input UpdateCategoryDto {
+  uuid: String!
 }

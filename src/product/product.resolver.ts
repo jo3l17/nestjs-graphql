@@ -4,11 +4,11 @@ import { Product } from './model/product.model';
 import { ProductService } from './product.service';
 
 // const pubSub = new PubSub();
-@Resolver((of) => Product)
+@Resolver(() => Product)
 export class ProductResolver {
   constructor(private readonly productService: ProductService) {}
 
-  @Query((returns) => [Product])
+  @Query(() => [Product])
   products(): Product[] {
     return [
       {

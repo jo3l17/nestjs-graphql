@@ -1,4 +1,7 @@
+import { UseGuards } from '@nestjs/common';
 import { Query, Resolver } from '@nestjs/graphql';
+import { AdminGuard } from 'src/common/guards/admin.guard';
+import { GraphqlAuthGuard } from 'src/common/guards/graphql.guard';
 // import { PubSub } from 'graphql-subscriptions';
 import { Product } from './model/product.model';
 import { ProductService } from './product.service';
@@ -8,6 +11,7 @@ import { ProductService } from './product.service';
 export class ProductResolver {
   constructor(private readonly productService: ProductService) {}
 
+  @UseGuards(GraphqlAuthGuard)
   @Query((returns) => [Product])
   products(): Product[] {
     return [

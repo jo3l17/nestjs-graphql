@@ -8,13 +8,11 @@ import { CommonModule } from './common/common.module';
 import { CartModule } from './cart/cart.module';
 import { OrderModule } from './order/order.module';
 import { AttachmentModule } from './attachment/attachment.module';
-import { GraphQLModule } from '@nestjs/graphql';
+import { GraphqlModule } from './graphql/graphql.module';
 
 @Module({
   imports: [
-    GraphQLModule.forRoot({
-      autoSchemaFile: 'schema.gql',
-    }),
+    GraphqlModule,
     AuthModule,
     PrismaModule,
     ProductModule,

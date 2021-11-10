@@ -55,7 +55,7 @@ export class ProductService {
   };
 
   findByCategory = async (uuid: string): Promise<ProductResponseDto[]> => {
-    let category;
+    let category = null;
     try {
       category = await this.prismaService.category.findFirst({
         where: { uuid },

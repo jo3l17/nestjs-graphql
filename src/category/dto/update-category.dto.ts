@@ -1,11 +1,10 @@
-import { Field, InputType } from '@nestjs/graphql';
-import { PartialType } from '@nestjs/swagger';
+import { Field, InputType, PartialType } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
 import { CreateCategoryDto } from './create-category.dto';
 
 @InputType()
 export class UpdateCategoryDto extends PartialType(CreateCategoryDto) {
-  @Field()
+  @Field({ nullable: true })
   @IsString()
   uuid: string;
 }

@@ -9,15 +9,15 @@ type MessageResponseDto {
 
 """Product model"""
 type Product {
-  id: ID!
-  uuid: String!
-  name: String!
-  stock: Float!
-  price: Float!
-  likes: Float!
-  active: Boolean!
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  id: ID
+  uuid: String
+  name: String
+  stock: Float
+  price: Float
+  likes: Float
+  active: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 """
@@ -30,17 +30,42 @@ type Category {
   id: ID
   uuid: String
   name: String
+  products: [Product!]!
 }
 
 type Query {
-  products: [Product!]!
+  product(uuid: String!): Product!
+  products(pagination: PaginationQueryDto!): [Product!]!
+  productsByCategory(uuid: String!): [Product!]!
   categories: [Category!]!
 }
 
+input PaginationQueryDto {
+  limit: Float
+  offset: Float
+}
+
 type Mutation {
+  createProduct(input: CreateProductDto!): Product!
+  updateProduct(input: UpdateProductDto!): Product!
+  deleteCategory(uuid: String!): MessageResponseDto!
   createCategory(input: CreateCategoryDto!): Category!
   updateCategory(input: UpdateCategoryDto!): Category!
-  deleteCategory(input: String!): MessageResponseDto!
+}
+
+input CreateProductDto {
+  name: String
+  stock: Float
+  active: Boolean
+  categoryName: [String!]
+}
+
+input UpdateProductDto {
+  name: String
+  stock: Float
+  active: Boolean
+  categoryName: [String!]
+  uuid: String
 }
 
 input CreateCategoryDto {
@@ -48,5 +73,6 @@ input CreateCategoryDto {
 }
 
 input UpdateCategoryDto {
-  uuid: String!
+  name: String
+  uuid: String
 }

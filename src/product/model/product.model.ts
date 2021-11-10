@@ -1,31 +1,32 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+// import { Category } from 'src/category/model/category';
 
 @ObjectType({ description: 'Product model' })
 export class Product {
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   id: string;
 
-  @Field()
+  @Field({ nullable: true })
   uuid: string;
 
-  @Field()
+  @Field({ nullable: true })
   name: string;
 
-  @Field()
+  @Field({ nullable: true })
   stock: number;
 
-  @Field()
+  @Field({ nullable: true })
   price: number;
 
-  @Field()
+  @Field({ nullable: true })
   likes: number;
 
-  @Field()
+  @Field({ nullable: true })
   active: boolean;
 
-  @Field()
+  @Field({ nullable: true })
   createdAt: Date;
 
-  @Field()
+  @Field({ nullable: true })
   updatedAt: Date;
 }

@@ -9,5 +9,5 @@ export class CreateCategoryDto {
   @MinLength(1)
   @IsString()
   @Field({ nullable: true })
-  name: string;
+  readonly name: string;
 }

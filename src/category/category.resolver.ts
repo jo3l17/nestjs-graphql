@@ -33,9 +33,9 @@ export class CategoryResolver {
 
   @Mutation(() => MessageResponseDto)
   async deleteCategory(
-    @Args({ name: 'input' })
-    data: string,
+    @Args('uuid', { type: () => String })
+    uuid: string,
   ) {
-    return await this.categoryService.deleteCategory(data);
+    return await this.categoryService.deleteCategory(uuid);
   }
 }

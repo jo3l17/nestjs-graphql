@@ -1,6 +1,5 @@
 import { Role } from '.prisma/client';
 import { Field, InputType } from '@nestjs/graphql';
-import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
   IsEnum,
@@ -10,28 +9,24 @@ import {
 } from 'class-validator';
 
 @InputType()
-export class CreateUserDto {
-  @ApiProperty({ description: 'name' })
-  @IsString()
+export class CreateUserInput {
   @IsNotEmpty({ message: 'name is required' })
+  @IsString()
   @Field()
   name: string;
 
-  @ApiProperty({ description: 'Email' })
   @IsNotEmpty({ message: 'Email is required' })
   @IsEmail()
   @Field()
   email: string;
 
-  @ApiProperty({ description: 'Password' })
   @IsNotEmpty({ message: 'password is required' })
   @IsString()
   @Field()
   password: string;
 
-  @ApiProperty({ description: 'Role', examples: ['user', 'manager'] })
   @IsEnum(Role, { message: 'Invalid role' })
   @IsOptional()
-  @Field()
+  @Field({ defaultValue: Role.user })
   role: Role = Role.user;
 }

@@ -7,6 +7,25 @@ type MessageResponseDto {
   message: String!
 }
 
+"""Message"""
+type MessageResponseModel {
+  message: String!
+}
+
+"""Token model"""
+type TokenModel {
+  """Token"""
+  token: String!
+
+  """Expiration date"""
+  expiration: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 """Product model"""
 type Product {
   id: ID!
@@ -19,11 +38,6 @@ type Product {
   createdAt: DateTime!
   updatedAt: DateTime!
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 """Category model"""
 type Category {
@@ -38,9 +52,26 @@ type Query {
 }
 
 type Mutation {
+  signup(input: CreateUserInput!): TokenModel!
+  signin(input: LoginUserInput!): TokenModel!
+  verifyToken(token: String!): MessageResponseModel!
+  refreshToken(token: String!): TokenModel!
+  logout(token: String!): MessageResponseModel!
   createCategory(input: CreateCategoryDto!): Category!
   updateCategory(input: UpdateCategoryDto!): Category!
   deleteCategory(input: String!): MessageResponseDto!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  password: String!
+  role: String = "user"
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
 }
 
 input CreateCategoryDto {

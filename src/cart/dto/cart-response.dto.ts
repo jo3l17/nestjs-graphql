@@ -8,7 +8,7 @@ export class CartResponseDto {
   @ApiProperty({ description: 'cart uuid' })
   uuid: string;
   @ApiProperty({ description: 'cart total' })
-  total: number | Decimal;
+  total: number;
   @ApiProperty({ description: 'cart products' })
   products: CartProductDto[];
 }

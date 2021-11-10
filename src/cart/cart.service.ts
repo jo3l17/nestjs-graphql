@@ -8,7 +8,7 @@ export class CartService {
   constructor(private prismaService: PrismaService) {}
   addToCart = async (
     productUuid: string,
-    uuid: string,
+    cartUuid: string,
     quantity: number,
   ): Promise<CartResponseDto> => {
     let product;
@@ -61,13 +61,16 @@ export class CartService {
         },
       },
       where: {
-        uuid,
+        uuid: cartUuid,
       },
     });
     return transformCart(updatedCart);
   };
 
-  removeFromCart = async (productUuid: string, uuid: string) => {
+  removeFromCart = async (
+    productUuid: string,
+    cartUuid: string,
+  ): Promise<CartResponseDto> => {
     const productInCart = await this.prismaService.cart.findFirst({
       include: {
         products: {
@@ -82,7 +85,7 @@ export class CartService {
         },
       },
       where: {
-        uuid,
+        uuid: cartUuid,
         products: {
           some: {
             product: {
@@ -107,7 +110,7 @@ export class CartService {
     });
     const updatedCart = await this.prismaService.cart.update({
       where: {
-        uuid,
+        uuid: cartUuid,
       },
       data: {
         total: {
@@ -132,7 +135,7 @@ export class CartService {
     return transformCart(updatedCart);
   };
 
-  getCart = async (uuid: string) => {
+  getCart = async (uuid: string): Promise<CartResponseDto> => {
     const cart = await this.prismaService.cart.findUnique({
       where: {
         uuid,

@@ -2,9 +2,9 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { MessageResponseDto } from 'src/common/dto/message-response.dto';
 import { PaginationQueryDto } from 'src/common/guards/dto/pagination-query.dto';
-import { CreateProductDto } from './dto/create-product.dto';
-import { ProductResponseDto } from './dto/product-response.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { CreateProductInput } from './dto/inputs/create-product.input';
+import { UpdateProductInput } from './dto/inputs/update-product.input';
+import { ProductResponse } from './dto/response/product-response';
 // import { AdminGuard } from 'src/common/guards/admin.guard';
 // import { GraphqlAuthGuard } from 'src/common/guards/graphql.guard';
 // import { PubSub } from 'graphql-subscriptions';
@@ -21,7 +21,7 @@ export class ProductResolver {
   async product(
     @Args('uuid', { type: () => String })
     uuid: string,
-  ): Promise<ProductResponseDto> {
+  ): Promise<ProductResponse> {
     return this.productService.findProduct(uuid);
   }
 
@@ -29,7 +29,7 @@ export class ProductResolver {
   async products(
     @Args({ name: 'pagination', type: () => PaginationQueryDto })
     pagination: PaginationQueryDto,
-  ): Promise<ProductResponseDto[]> {
+  ): Promise<ProductResponse[]> {
     return this.productService.findAll(pagination);
   }
 
@@ -37,23 +37,23 @@ export class ProductResolver {
   async productsByCategory(
     @Args('uuid', { type: () => String })
     uuidCategory: string,
-  ): Promise<ProductResponseDto[]> {
+  ): Promise<ProductResponse[]> {
     return this.productService.findByCategory(uuidCategory);
   }
 
   @Mutation(() => Product)
   async createProduct(
-    @Args({ name: 'input', type: () => CreateProductDto })
-    data: CreateProductDto,
-  ): Promise<ProductResponseDto> {
+    @Args({ name: 'input', type: () => CreateProductInput })
+    data: CreateProductInput,
+  ): Promise<ProductResponse> {
     return await this.productService.createProduct(data);
   }
 
   @Mutation(() => Product)
   async updateProduct(
-    @Args({ name: 'input', type: () => UpdateProductDto })
-    data: UpdateProductDto,
-  ): Promise<ProductResponseDto> {
+    @Args({ name: 'input', type: () => UpdateProductInput })
+    data: UpdateProductInput,
+  ): Promise<ProductResponse> {
     return await this.productService.updateProductAndCategories(
       data.uuid,
       data,

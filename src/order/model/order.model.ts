@@ -1,9 +1,9 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 
-@ObjectType({ description: 'Cart' })
-export class Cart {
+@ObjectType({ description: 'Order' })
+export class Order {
   @Field(() => ID)
-  id: string;
+  id: number;
 
   @Field()
   uuid: string;
@@ -13,9 +13,6 @@ export class Cart {
 
   @Field()
   createdAt: Date;
-
-  @Field()
-  updatedAt: Date;
 
   @Field()
   userId: string;

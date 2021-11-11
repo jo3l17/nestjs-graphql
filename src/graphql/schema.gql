@@ -48,11 +48,38 @@ type Product {
   category: [Category!]!
 }
 
+type ResponseCategory {
+  name: String!
+}
+
+type ProductResponse {
+  id: Float!
+  uuid: String!
+  likes: Float!
+  category: ResponseCategory!
+}
+
+type CartProductResponse {
+  """quantity"""
+  quantity: Float!
+
+  """product"""
+  product: ProductResponse!
+}
+
+type CartResponse {
+  id: Float!
+  uuid: String!
+  total: Float!
+  products: [CartProductResponse!]!
+}
+
 type Query {
   product(uuid: String!): Product!
   products(pagination: PaginationQueryDto!): [Product!]!
   productsByCategory(uuid: String!): [Product!]!
   categories: [Category!]!
+  getCart: CartResponse!
 }
 
 input PaginationQueryDto {
@@ -71,6 +98,8 @@ type Mutation {
   deleteCategory(uuid: String!): MessageResponseDto!
   createCategory(input: CreateCategoryInput!): Category!
   updateCategory(input: UpdateCategoryInput!): Category!
+  addToCart(quantity: Float!, productUUid: String!): CartResponse!
+  removeFromCart(productUUid: String!): CartResponse!
 }
 
 input CreateUserInput {

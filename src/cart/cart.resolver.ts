@@ -1,6 +1,6 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { UserDec } from 'src/common/decorators/user.decorator';
+import { CurrentUser } from 'src/common/decorators/user.decorator';
 import { GraphqlAuthGuard } from 'src/common/guards/graphql.guard';
 import { JWTPayload } from 'src/common/helpers/jwt.helper';
 import { CartService } from './cart.service';
@@ -12,11 +12,17 @@ export class CartResolver {
   constructor(private readonly cartService: CartService) {}
 
   @UseGuards(GraphqlAuthGuard)
+  @Query(() => CartResponse)
+  async getCart(@CurrentUser() user: JWTPayload): Promise<CartResponse> {
+    return await this.cartService.getCart(user.cartUuid);
+  }
+
+  @UseGuards(GraphqlAuthGuard)
   @Mutation(() => CartResponse)
   async addToCart(
     @Args('productUUid') productUuid: string,
     @Args('quantity') quantity: number,
-    @UserDec() user: JWTPayload,
+    @CurrentUser() user: JWTPayload,
   ): Promise<CartResponse> {
     return await this.cartService.addToCart(
       productUuid,
@@ -28,14 +34,8 @@ export class CartResolver {
   @Mutation(() => CartResponse)
   async removeFromCart(
     @Args('productUUid') productUuid: string,
-    @UserDec() user: JWTPayload,
+    @CurrentUser() user: JWTPayload,
   ): Promise<CartResponse> {
     return await this.cartService.removeFromCart(productUuid, user.cartUuid);
-  }
-
-  @UseGuards(GraphqlAuthGuard)
-  @Query(() => CartResponse)
-  async getCart(@UserDec() user: JWTPayload): Promise<CartResponse> {
-    return await this.cartService.getCart(user.cartUuid);
   }
 }

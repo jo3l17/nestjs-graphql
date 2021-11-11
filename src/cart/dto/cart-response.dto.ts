@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Decimal } from '@prisma/client/runtime';
 import { CartProductDto } from './cart-product.dto';
 
 export class CartResponseDto {

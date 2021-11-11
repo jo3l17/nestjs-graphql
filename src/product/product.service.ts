@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { AttachmentService } from '../attachment/attachment.service';
 import { AttachmentDto } from '../attachment/dto/attachment.dto';
-import { PaginationQueryDto } from '../common/guards/dto/pagination-query.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { plainToClass } from 'class-transformer';
 import { ContentTypeDto } from './dto/content-type.dto';
@@ -14,7 +14,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { ReadImageProductDto } from './dto/read-image-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductResponseDto } from './dto/product-response.dto';
-import { MessageResponseDto } from 'src/common/dto/message-response.dto';
+import { MessageResponseDto } from '../common/dto/message-response.dto';
 
 @Injectable()
 export class ProductService {
@@ -41,7 +41,7 @@ export class ProductService {
         price: true,
         active: true,
         name: true,
-        category: { select: { name: true } },
+        category: { select: { name: true, uuid: true } },
         likes: true,
       },
     });
@@ -55,7 +55,7 @@ export class ProductService {
   };
 
   findByCategory = async (uuid: string): Promise<ProductResponseDto[]> => {
-    let category;
+    let category = null;
     try {
       category = await this.prismaService.category.findFirst({
         where: { uuid },
@@ -84,7 +84,7 @@ export class ProductService {
     return response;
   };
 
-  findProduct = async (uuid: string): Promise<ProductResponseDto> => {
+  findProduct = async (uuid: string): Promise<ReadImageProductDto> => {
     try {
       const query = await this.prismaService.product.findUnique({
         where: {
@@ -94,23 +94,25 @@ export class ProductService {
           name: true,
           stock: true,
           price: true,
+          active: true,
+          likes: true,
           category: {
             select: {
               name: true,
+              uuid: true,
             },
           },
         },
       });
 
       const imagesUrl = await this.attachmentsService.getImages(uuid);
-      const product = plainToClass(ReadImageProductDto, {
+
+      return plainToClass(ReadImageProductDto, {
         ...query,
         price: query.price.toNumber(),
         categoryName: query.category.map((c) => c.name),
         imagesUrl,
       });
-
-      return plainToClass(ProductResponseDto, product);
     } catch (error) {
       throw new NotFoundException(`Product #${uuid} not found`);
     }
@@ -131,7 +133,7 @@ export class ProductService {
           connect: createProductDto.categoryName.map((c) => ({ name: c })),
         },
       },
-      include: { category: { select: { name: true } } },
+      include: { category: { select: { name: true, uuid: true } } },
     });
     return plainToClass(ProductResponseDto, {
       ...product,
@@ -323,7 +325,7 @@ export class ProductService {
     productUuid: string,
     content: ContentTypeDto,
   ): Promise<AttachmentDto> {
-    let product;
+    let product = null;
     try {
       product = await this.prismaService.product.findUnique({
         where: { uuid: productUuid },

@@ -1,0 +1,200 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""message"""
+type MessageResponseDto {
+  message: String!
+}
+
+"""Message"""
+type MessageResponseModel {
+  message: String!
+}
+
+"""Token model"""
+type TokenModel {
+  """Token"""
+  token: String!
+
+  """Expiration date"""
+  expiration: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Attachment {
+  id: Float!
+  key: String!
+  ext: String!
+  contentType: String!
+  signedUrl: String
+  createdAt: DateTime!
+  productId: Float!
+}
+
+"""Category model"""
+type Category {
+  id: ID
+  uuid: String
+  name: String
+  products: [Product!]!
+}
+
+"""Product model"""
+type Product {
+  id: ID!
+  uuid: String!
+  name: String!
+  stock: Float!
+  price: Float!
+  likes: Float!
+  active: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  category: [Category!]!
+}
+
+"""Product with Images model"""
+type ProductImage {
+  id: ID!
+  uuid: String!
+  name: String!
+  stock: Float!
+  price: Float!
+  likes: Float!
+  active: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  imagesUrl: [Attachment!]!
+  category: [Category!]!
+}
+
+type ResponseCategory {
+  name: String!
+}
+
+type ProductResponse {
+  id: Float!
+  uuid: String!
+  likes: Float!
+  name: String!
+  price: Float!
+  category: ResponseCategory!
+}
+
+type CartProductResponse {
+  """quantity"""
+  quantity: Float!
+
+  """product"""
+  product: ProductResponse!
+}
+
+type CartResponse {
+  id: Float!
+  uuid: String!
+  total: Float!
+  products: [CartProductResponse!]!
+}
+
+type OrderProductResponse {
+  """quantity"""
+  quantity: Float!
+
+  """product"""
+  product: ProductResponse!
+}
+
+type OrderResponse {
+  """cart id"""
+  id: Float!
+
+  """cart uuid"""
+  uuid: String!
+
+  """cart total"""
+  total: Float!
+
+  """cart products"""
+  products: [OrderProductResponse!]!
+}
+
+type Query {
+  product(uuid: String!): ProductImage!
+  products(pagination: PaginationQueryDto): [Product!]!
+  productsByCategory(uuid: String!): [Product!]!
+  categories: [Category!]!
+  cart: CartResponse!
+  orders(pagination: PaginationQueryDto): [OrderResponse!]!
+  order(orderUuid: String!): OrderResponse!
+}
+
+input PaginationQueryDto {
+  limit: Float
+  offset: Float
+}
+
+type Mutation {
+  signup(input: CreateUserInput!): TokenModel!
+  signin(input: LoginUserInput!): TokenModel!
+  verifyToken(token: String!): MessageResponseModel!
+  refreshToken(token: String!): TokenModel!
+  logout(token: String!): MessageResponseModel!
+  createProduct(input: CreateProductInput!): Product!
+  updateProduct(input: UpdateProductInput!): Product!
+  deleteProduct(uuid: String!): MessageResponseDto!
+  getSignedUrl(input: ContentTypeInput!): Attachment!
+  createCategory(input: CreateCategoryInput!): Category!
+  updateCategory(input: UpdateCategoryInput!): Category!
+  deleteCategory(uuid: String!): MessageResponseDto!
+  addToCart(quantity: Float!, productUUid: String!): CartResponse!
+  removeFromCart(productUUid: String!): CartResponse!
+  createOrder: OrderResponse!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  password: String!
+  role: String = "user"
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
+}
+
+input CreateProductInput {
+  name: String!
+  stock: Float!
+  price: Float!
+  active: Boolean!
+  categoryName: [String!]
+}
+
+input UpdateProductInput {
+  name: String
+  stock: Float
+  price: Float
+  active: Boolean
+  categoryName: [String!]
+  uuid: String
+}
+
+input ContentTypeInput {
+  productUuid: String!
+  contentType: String!
+}
+
+input CreateCategoryInput {
+  name: String
+}
+
+input UpdateCategoryInput {
+  name: String
+  uuid: String!
+}

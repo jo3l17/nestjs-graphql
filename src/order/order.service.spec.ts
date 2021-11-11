@@ -2,7 +2,7 @@ import { Product, User } from '.prisma/client';
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { plainToClass } from 'class-transformer';
-import { PaginationQueryDto } from '../common/guards/dto/pagination-query.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { CartService } from '../cart/cart.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { OrderService } from './order.service';

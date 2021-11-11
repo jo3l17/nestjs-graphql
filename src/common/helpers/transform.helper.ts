@@ -1,4 +1,4 @@
-import { OrderResponseDto } from '../../order/dto/response-order.dto';
+import { OrderResponseDto } from '../../order/dto/order-response.dto';
 import { plainToClass } from 'class-transformer';
 import { OrderProductDto } from '../../order/dto/order-product.dto';
 import { ProductResponseDto } from '../../product/dto/product-response.dto';

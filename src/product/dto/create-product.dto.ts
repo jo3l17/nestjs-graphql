@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Decimal } from '@prisma/client/runtime';
 import { IsBoolean, IsNumber, IsPositive, IsString } from 'class-validator';
 
 export class CreateProductDto {
@@ -15,7 +14,7 @@ export class CreateProductDto {
   @ApiProperty({ description: 'Product price', example: 25.5 })
   @IsPositive()
   @IsNumber()
-  readonly price: number | Decimal;
+  readonly price: number;
 
   @ApiProperty({ description: 'Product is active', example: true })
   @IsBoolean()

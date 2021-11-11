@@ -4,16 +4,16 @@ import attachmentConfig from '../attachment/config/attachment.config';
 import { AttachmentService } from '../attachment/attachment.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProductService } from './product.service';
-import { PaginationQueryDto } from '../common/guards/dto/pagination-query.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import {
   BadRequestException,
   ForbiddenException,
   NotFoundException,
 } from '@nestjs/common';
 import { User } from '.prisma/client';
-import { TypesEnum } from './dto/content-type.dto';
 import { PrismaModule } from '../prisma/prisma.module';
 import { ProductResponseDto } from './dto/product-response.dto';
+import { TypesEnum } from '../attachment/enums/attachment.enum';
 
 describe('ProductService', () => {
   let service: ProductService;
@@ -162,6 +162,7 @@ describe('ProductService', () => {
           active: false,
           stock: 20,
           categoryName: ['category3', 'category4'],
+          uuid: 'anything',
         },
       );
       expect(updatedProduct.name).toBe('test2');
@@ -182,6 +183,7 @@ describe('ProductService', () => {
         product.uuid,
         {
           name: 'test2',
+          uuid: 'anuthing',
         },
       );
       expect(updatedProduct.name).toBe('test2');

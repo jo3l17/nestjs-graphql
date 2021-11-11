@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
-import { MessageResponseDto } from 'src/common/dto/message-response.dto';
+import { MessageResponseDto } from '../common/dto/message-response.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { ResponseCategoryDto } from './dto/category-response.dto';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -28,7 +28,7 @@ export class CategoryService {
       });
       return plainToClass(ResponseCategoryDto, category);
     } catch (error) {
-      throw new BadRequestException('invalid name');
+      throw new BadRequestException('category already exists');
     }
   };
 
@@ -48,7 +48,8 @@ export class CategoryService {
 
       return plainToClass(ResponseCategoryDto, category);
     } catch (error) {
-      throw new NotFoundException('id not found');
+      console.log(error);
+      throw new NotFoundException(`${uuid} not found`);
     }
   };
 

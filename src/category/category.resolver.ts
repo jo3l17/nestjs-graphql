@@ -1,9 +1,9 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { MessageResponseDto } from 'src/common/dto/message-response.dto';
+import { MessageResponseDto } from '../common/dto/message-response.dto';
 import { CategoryService } from './category.service';
 import { CreateCategoryInput } from './dto/inputs/create-category.input';
 import { UpdateCategoryInput } from './dto/inputs/update-category.input';
-import { ResponseCategory } from './dto/response/category.response';
+import { ResponseCategory } from './dto/response/category-response';
 import { Category } from './model/category';
 
 @Resolver(() => Category)

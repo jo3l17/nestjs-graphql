@@ -1,5 +1,5 @@
 import { Field, ObjectType, PartialType } from '@nestjs/graphql';
-import { ResponseCategory } from 'src/category/dto/response/category.response';
+import { ResponseCategory } from '../../../category/dto/response/category-response';
 import { CreateProductInput } from '../inputs/create-product.input';
 
 @ObjectType()

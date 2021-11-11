@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { AttachmentService } from '../attachment/attachment.service';
 import { AttachmentDto } from '../attachment/dto/attachment.dto';
-import { PaginationQueryDto } from '../common/guards/dto/pagination-query.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { plainToClass } from 'class-transformer';
 import { ContentTypeDto } from './dto/content-type.dto';
@@ -14,7 +14,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { ReadImageProductDto } from './dto/read-image-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductResponseDto } from './dto/product-response.dto';
-import { MessageResponseDto } from 'src/common/dto/message-response.dto';
+import { MessageResponseDto } from '../common/dto/message-response.dto';
 
 @Injectable()
 export class ProductService {

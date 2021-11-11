@@ -7,9 +7,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AdminGuard } from 'src/common/guards/admin.guard';
-import { PaginationQueryDto } from 'src/common/guards/dto/pagination-query.dto';
-import { jwtAuthGuard } from 'src/common/guards/token.guard';
+import { AdminGuard } from '../common/guards/admin.guard';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
+import { jwtAuthGuard } from '../common/guards/token.guard';
 import { OrderService } from './order.service';
 
 @ApiTags('Order')

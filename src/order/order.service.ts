@@ -1,11 +1,11 @@
-import { PaginationQueryDto } from 'src/common/guards/dto/pagination-query.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   transformOrders,
   transformOrder,
 } from '../common/helpers/transform.helper';
-import { JWTPayload } from 'src/common/helpers/jwt.helper';
+import { JWTPayload } from '../common/helpers/jwt.helper';
 
 @Injectable()
 export class OrderService {

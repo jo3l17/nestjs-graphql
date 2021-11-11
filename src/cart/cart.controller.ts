@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { jwtAuthGuard } from 'src/common/guards/token.guard';
+import { jwtAuthGuard } from '../common/guards/token.guard';
 import { CartService } from './cart.service';
 
 @ApiTags('Cart')

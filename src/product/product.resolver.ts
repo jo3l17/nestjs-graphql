@@ -1,4 +1,4 @@
-// import { UseGuards } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AttachmentDto } from 'src/attachment/dto/attachment.dto';
 import { ContentTypeInput } from 'src/attachment/dto/inputs/content-type.input';
@@ -9,19 +9,16 @@ import { CreateProductInput } from './dto/inputs/create-product.input';
 import { UpdateProductInput } from './dto/inputs/update-product.input';
 import { ProductResponse } from './dto/response/product-response';
 import { ReadImageProduct } from './dto/response/read-image-product';
-// import { AdminGuard } from 'src/common/guards/admin.guard';
-// import { GraphqlAuthGuard } from 'src/common/guards/graphql.guard';
-// import { PubSub } from 'graphql-subscriptions';
+import { AdminGuard } from 'src/common/guards/admin.guard';
+import { GraphqlAuthGuard } from 'src/common/guards/graphql.guard';
 import { Product } from './model/product.model';
 import { ProductImage } from './model/productImage.model';
 import { ProductService } from './product.service';
 
-// const pubSub = new PubSub();
 @Resolver(() => Product)
 export class ProductResolver {
   constructor(private readonly productService: ProductService) {}
 
-  // @UseGuards(GraphqlAuthGuard)
   @Query(() => ProductImage)
   async product(
     @Args('uuid', { type: () => String })
@@ -46,6 +43,7 @@ export class ProductResolver {
     return this.productService.findByCategory(uuidCategory);
   }
 
+  @UseGuards(GraphqlAuthGuard, AdminGuard)
   @Mutation(() => Product)
   async createProduct(
     @Args({ name: 'input', type: () => CreateProductInput })
@@ -54,6 +52,7 @@ export class ProductResolver {
     return await this.productService.createProduct(data);
   }
 
+  @UseGuards(GraphqlAuthGuard, AdminGuard)
   @Mutation(() => Product)
   async updateProduct(
     @Args({ name: 'input', type: () => UpdateProductInput })
@@ -65,6 +64,7 @@ export class ProductResolver {
     );
   }
 
+  @UseGuards(GraphqlAuthGuard, AdminGuard)
   @Mutation(() => MessageResponseDto)
   async deleteProduct(
     @Args('uuid', { type: () => String })
@@ -73,6 +73,7 @@ export class ProductResolver {
     return await this.productService.deleteProduct(uuid);
   }
 
+  @UseGuards(GraphqlAuthGuard, AdminGuard)
   @Mutation(() => Attachment)
   async getSignedUrl(
     @Args({ name: 'input', type: () => ContentTypeInput })
@@ -83,4 +84,12 @@ export class ProductResolver {
       data,
     );
   }
+
+  // @UseGuards(GraphqlAuthGuard)
+  // @Mutation(() => MessageResponseDto)
+  // async setLike(
+  //   @CurrentUser()
+  //   @Args('uuid', { type: () => String })
+  //   productUuid: string,
+  // ) {}
 }

@@ -14,6 +14,8 @@ import { GraphqlAuthGuard } from 'src/common/guards/graphql.guard';
 import { Product } from './model/product.model';
 import { ProductImage } from './model/productImage.model';
 import { ProductService } from './product.service';
+import { CurrentUser } from 'src/common/decorators/user.decorator';
+import { JWTPayload } from 'src/common/helpers/jwt.helper';
 
 @Resolver(() => Product)
 export class ProductResolver {
@@ -85,11 +87,23 @@ export class ProductResolver {
     );
   }
 
-  // @UseGuards(GraphqlAuthGuard)
-  // @Mutation(() => MessageResponseDto)
-  // async setLike(
-  //   @CurrentUser()
-  //   @Args('uuid', { type: () => String })
-  //   productUuid: string,
-  // ) {}
+  @UseGuards(GraphqlAuthGuard)
+  @Mutation(() => MessageResponseDto)
+  async setLike(
+    @CurrentUser() user: JWTPayload,
+    @Args('uuid', { type: () => String })
+    productUuid: string,
+  ) {
+    return this.productService.setLike(productUuid, user.uuid);
+  }
+
+  @UseGuards(GraphqlAuthGuard)
+  @Mutation(() => MessageResponseDto)
+  async deleteLike(
+    @CurrentUser() user: JWTPayload,
+    @Args('uuid', { type: () => String })
+    productUuid: string,
+  ) {
+    return this.productService.deleteLike(productUuid, user.uuid);
+  }
 }

@@ -1,8 +1,9 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Attachment } from '../../attachment/model/attachment';
 import { Category } from '../../category/model/category';
 
-@ObjectType({ description: 'Product model' })
-export class Product {
+@ObjectType({ description: 'Product with Images model' })
+export class ProductImage {
   @Field(() => ID)
   id: string;
 
@@ -29,6 +30,9 @@ export class Product {
 
   @Field()
   updatedAt: Date;
+
+  @Field(() => [Attachment])
+  imagesUrl: Attachment[];
 
   @Field(() => [Category])
   category: Category[];

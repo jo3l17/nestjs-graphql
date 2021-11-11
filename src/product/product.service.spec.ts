@@ -11,9 +11,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { User } from '.prisma/client';
-import { TypesEnum } from './dto/content-type.dto';
 import { PrismaModule } from '../prisma/prisma.module';
 import { ProductResponseDto } from './dto/product-response.dto';
+import { TypesEnum } from '../attachment/enums/attachment.enum';
 
 describe('ProductService', () => {
   let service: ProductService;

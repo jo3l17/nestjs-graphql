@@ -1,10 +1,11 @@
 import { Attachment } from '.prisma/client';
-import { Field } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import {
   TypesEnum,
   FileExtensionEnum,
 } from 'src/attachment/enums/attachment.enum';
 
+@ObjectType()
 export class AttachmentResponse implements Attachment {
   @Field({ description: 'ID of Attachment' })
   readonly id: number;

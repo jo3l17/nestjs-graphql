@@ -1,12 +1,12 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { MessageResponseDto } from 'src/common/dto/message-response.dto';
-import { AdminGuard } from 'src/common/guards/admin.guard';
-import { GraphqlAuthGuard } from 'src/common/guards/graphql.guard';
+import { MessageResponseDto } from '../common/dto/message-response.dto';
+import { AdminGuard } from '../common/guards/admin.guard';
+import { GraphqlAuthGuard } from '../common/guards/graphql.guard';
 import { CategoryService } from './category.service';
 import { CreateCategoryInput } from './dto/inputs/create-category.input';
 import { UpdateCategoryInput } from './dto/inputs/update-category.input';
-import { ResponseCategory } from './dto/response/category.response';
+import { ResponseCategory } from './dto/response/category-response';
 import { Category } from './model/category';
 
 @Resolver(() => Category)

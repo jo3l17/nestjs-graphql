@@ -14,7 +14,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { ReadImageProductDto } from './dto/read-image-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductResponseDto } from './dto/product-response.dto';
-import { MessageResponseDto } from 'src/common/dto/message-response.dto';
+import { MessageResponseDto } from '../common/dto/message-response.dto';
 
 @Injectable()
 export class ProductService {

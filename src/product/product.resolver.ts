@@ -1,21 +1,20 @@
-import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { AttachmentDto } from 'src/attachment/dto/attachment.dto';
-import { ContentTypeInput } from 'src/attachment/dto/inputs/content-type.input';
-import { Attachment } from 'src/attachment/model/attachment';
-import { MessageResponseDto } from 'src/common/dto/message-response.dto';
+import { AttachmentDto } from '../attachment/dto/attachment.dto';
+import { ContentTypeInput } from '../attachment/dto/inputs/content-type.input';
+import { Attachment } from '../attachment/model/attachment';
+import { MessageResponseDto } from '../common/dto/message-response.dto';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { CreateProductInput } from './dto/inputs/create-product.input';
 import { UpdateProductInput } from './dto/inputs/update-product.input';
 import { ProductResponse } from './dto/response/product-response';
 import { ReadImageProduct } from './dto/response/read-image-product';
-import { AdminGuard } from 'src/common/guards/admin.guard';
-import { GraphqlAuthGuard } from 'src/common/guards/graphql.guard';
+import { AdminGuard } from '../common/guards/admin.guard';
+import { GraphqlAuthGuard } from '../common/guards/graphql.guard';
 import { Product } from './model/product.model';
-import { ProductImage } from './model/productImage.model';
+import { ProductImage } from './model/product-image.model';
 import { ProductService } from './product.service';
-import { CurrentUser } from 'src/common/decorators/user.decorator';
-import { JWTPayload } from 'src/common/helpers/jwt.helper';
+import { CurrentUser } from '../common/decorators/user.decorator';
+import { JWTPayload } from '../common/helpers/jwt.helper';
 
 @Resolver(() => Product)
 export class ProductResolver {
@@ -31,7 +30,11 @@ export class ProductResolver {
 
   @Query(() => [Product])
   async products(
-    @Args({ name: 'pagination', type: () => PaginationQueryDto })
+    @Args({
+      name: 'pagination',
+      nullable: true,
+      type: () => PaginationQueryDto,
+    })
     pagination: PaginationQueryDto,
   ): Promise<ProductResponse[]> {
     return this.productService.findAll(pagination);

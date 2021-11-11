@@ -6,6 +6,6 @@ export class CreateCategoryInput {
   @MaxLength(20)
   @MinLength(1)
   @IsString()
-  @Field({ nullable: true })
+  @Field({ nullable: true, description: 'Category name' })
   readonly name: string;
 }

@@ -1,7 +1,11 @@
 import { Attachment } from '.prisma/client';
 import { ApiHideProperty } from '@nestjs/swagger';
 import { Exclude, Expose } from 'class-transformer';
+<<<<<<< HEAD
+import { TypesEnum, FileExtensionEnum } from '../enums/attachment.enum';
+=======
 import { FileExtensionEnum, TypesEnum } from '../enums/attachment.enum';
+>>>>>>> resolvers
 
 @Exclude()
 export class AttachmentDto implements Attachment {

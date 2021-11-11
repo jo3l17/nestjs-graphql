@@ -1,5 +1,5 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { MessageResponseModel } from 'src/common/model/message-response.model';
+import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { MessageResponseModel } from '../common/model/message-response.model';
 import { AuthService } from './auth.service';
 import { CreateUserInput } from './dto/input/create-user.input';
 import { LoginUserInput } from './dto/input/login-user.input';

@@ -4,7 +4,7 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { MessageResponseDto } from 'src/common/dto/message-response.dto';
+import { MessageResponseDto } from '../common/dto/message-response.dto';
 import { compare, hashPassword } from '../common/helpers/encrypt.helper';
 import { generateToken, JWTPayload } from '../common/helpers/jwt.helper';
 import { createEmail, HOST, sgMail } from '../common/helpers/sendgrid.helper';

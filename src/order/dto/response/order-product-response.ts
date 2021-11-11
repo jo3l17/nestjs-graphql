@@ -2,10 +2,10 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { ProductResponse } from '../../../product/dto/response/product-response';
 
 @ObjectType()
-export class CartProductResponse {
+export class OrderProductResponse {
   @Field({ description: 'quantity' })
   quantity: number;
 
-  @Field(() => ProductResponse, { description: 'product' })
+  @Field({ description: 'product' })
   product: ProductResponse;
 }

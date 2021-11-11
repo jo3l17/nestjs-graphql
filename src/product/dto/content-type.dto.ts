@@ -1,12 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
-
-export enum TypesEnum {
-  IMAGEJPEG = 'image/jpeg',
-  IMAGEJPG = 'image/jpg',
-  IMAGEPNG = 'image/png',
-  IMAGETIFF = 'image/tiff',
-}
+import { TypesEnum } from '../../attachment/enums/attachment.enum';
 
 export class ContentTypeDto {
   @IsString()

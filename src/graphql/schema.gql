@@ -2,7 +2,7 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-"""Delete succesfull"""
+"""message"""
 type MessageResponseDto {
   message: String!
 }
@@ -46,15 +46,30 @@ type Category {
 
 """Product model"""
 type Product {
-  id: ID
-  uuid: String
-  name: String
-  stock: Float
-  price: Float
-  likes: Float
-  active: Boolean
-  createdAt: DateTime
-  updatedAt: DateTime
+  id: ID!
+  uuid: String!
+  name: String!
+  stock: Float!
+  price: Float!
+  likes: Float!
+  active: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  category: [Category!]!
+}
+
+"""Product with Images model"""
+type ProductImage {
+  id: ID!
+  uuid: String!
+  name: String!
+  stock: Float!
+  price: Float!
+  likes: Float!
+  active: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  imagesUrl: [Attachment!]!
   category: [Category!]!
 }
 
@@ -66,6 +81,8 @@ type ProductResponse {
   id: Float!
   uuid: String!
   likes: Float!
+  name: String!
+  price: Float!
   category: ResponseCategory!
 }
 
@@ -82,27 +99,38 @@ type CartResponse {
   uuid: String!
   total: Float!
   products: [CartProductResponse!]!
-"""Product with Images model"""
-type ProductImage {
-  id: ID
-  uuid: String
-  name: String
-  stock: Float
-  price: Float
-  likes: Float
-  active: Boolean
-  createdAt: DateTime
-  updatedAt: DateTime
-  imagesUrl: [Attachment!]!
-  category: [Category!]!
+}
+
+type OrderProductResponse {
+  """quantity"""
+  quantity: Float!
+
+  """product"""
+  product: ProductResponse!
+}
+
+type OrderResponse {
+  """cart id"""
+  id: Float!
+
+  """cart uuid"""
+  uuid: String!
+
+  """cart total"""
+  total: Float!
+
+  """cart products"""
+  products: [OrderProductResponse!]!
 }
 
 type Query {
   product(uuid: String!): ProductImage!
-  products(pagination: PaginationQueryDto!): [Product!]!
+  products(pagination: PaginationQueryDto): [Product!]!
   productsByCategory(uuid: String!): [Product!]!
   categories: [Category!]!
-  getCart: CartResponse!
+  cart: CartResponse!
+  orders(pagination: PaginationQueryDto): [OrderResponse!]!
+  order(orderUuid: String!): OrderResponse!
 }
 
 input PaginationQueryDto {
@@ -122,9 +150,10 @@ type Mutation {
   getSignedUrl(input: ContentTypeInput!): Attachment!
   createCategory(input: CreateCategoryInput!): Category!
   updateCategory(input: UpdateCategoryInput!): Category!
+  deleteCategory(uuid: String!): MessageResponseDto!
   addToCart(quantity: Float!, productUUid: String!): CartResponse!
   removeFromCart(productUUid: String!): CartResponse!
-  deleteCategory(uuid: String!): MessageResponseDto!
+  createOrder: OrderResponse!
 }
 
 input CreateUserInput {

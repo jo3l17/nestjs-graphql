@@ -1,14 +1,14 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { Allow } from 'class-validator';
-import { TypesEnum } from 'src/product/dto/content-type.dto';
+import { IsEnum, IsString } from 'class-validator';
+import { TypesEnum } from 'src/attachment/enums/attachment.enum';
 
 @InputType()
 export class ContentTypeInput {
-  @Allow()
+  @IsString()
   @Field()
   productUuid: string;
 
-  @Allow()
+  @IsEnum(TypesEnum)
   @Field()
   contentType: TypesEnum;
 }

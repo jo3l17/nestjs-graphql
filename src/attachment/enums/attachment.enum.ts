@@ -4,11 +4,9 @@ export enum FileExtensionEnum {
   JPEG = 'jpeg',
 }
 
-export enum ContentTypeEnum {
-  'PNG' = 'image/png',
-  'JPG' = 'image/jpg',
-  'JPEG' = 'image/jpeg',
+export enum TypesEnum {
+  IMAGEJPEG = 'image/jpeg',
+  IMAGEJPG = 'image/jpg',
+  IMAGEPNG = 'image/png',
+  IMAGETIFF = 'image/tiff',
 }
-
-export type FileExtensionType = keyof typeof FileExtensionEnum;
-export type ContentTypeType = keyof typeof ContentTypeEnum;

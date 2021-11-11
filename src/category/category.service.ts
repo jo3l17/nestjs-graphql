@@ -28,7 +28,7 @@ export class CategoryService {
       });
       return plainToClass(ResponseCategoryDto, category);
     } catch (error) {
-      throw new BadRequestException('invalid name');
+      throw new BadRequestException('category already exists');
     }
   };
 
@@ -48,7 +48,8 @@ export class CategoryService {
 
       return plainToClass(ResponseCategoryDto, category);
     } catch (error) {
-      throw new NotFoundException('id not found');
+      console.log(error);
+      throw new NotFoundException(`${uuid} not found`);
     }
   };
 

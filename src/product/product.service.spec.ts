@@ -4,7 +4,7 @@ import attachmentConfig from '../attachment/config/attachment.config';
 import { AttachmentService } from '../attachment/attachment.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProductService } from './product.service';
-import { PaginationQueryDto } from '../common/guards/dto/pagination-query.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import {
   BadRequestException,
   ForbiddenException,

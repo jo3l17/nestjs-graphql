@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { AttachmentService } from '../attachment/attachment.service';
 import { AttachmentDto } from '../attachment/dto/attachment.dto';
-import { PaginationQueryDto } from '../common/guards/dto/pagination-query.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { plainToClass } from 'class-transformer';
 import { ContentTypeDto } from './dto/content-type.dto';

@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { Allow } from 'class-validator';
-import { TypesEnum } from 'src/product/dto/content-type.dto';
+import { TypesEnum } from '../../../attachment/enums/attachment.enum';
 
 @InputType()
 export class ContentTypeInput {

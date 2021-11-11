@@ -2,7 +2,7 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-"""Delete succesfull"""
+"""message"""
 type MessageResponseDto {
   message: String!
 }
@@ -58,6 +58,21 @@ type Product {
   category: [Category!]!
 }
 
+"""Product with Images model"""
+type ProductImage {
+  id: ID
+  uuid: String
+  name: String
+  stock: Float
+  price: Float
+  likes: Float
+  active: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+  imagesUrl: [Attachment!]!
+  category: [Category!]!
+}
+
 type ResponseCategory {
   name: String!
 }
@@ -82,19 +97,6 @@ type CartResponse {
   uuid: String!
   total: Float!
   products: [CartProductResponse!]!
-"""Product with Images model"""
-type ProductImage {
-  id: ID
-  uuid: String
-  name: String
-  stock: Float
-  price: Float
-  likes: Float
-  active: Boolean
-  createdAt: DateTime
-  updatedAt: DateTime
-  imagesUrl: [Attachment!]!
-  category: [Category!]!
 }
 
 type Query {
@@ -122,9 +124,9 @@ type Mutation {
   getSignedUrl(input: ContentTypeInput!): Attachment!
   createCategory(input: CreateCategoryInput!): Category!
   updateCategory(input: UpdateCategoryInput!): Category!
+  deleteCategory(uuid: String!): MessageResponseDto!
   addToCart(quantity: Float!, productUUid: String!): CartResponse!
   removeFromCart(productUUid: String!): CartResponse!
-  deleteCategory(uuid: String!): MessageResponseDto!
 }
 
 input CreateUserInput {

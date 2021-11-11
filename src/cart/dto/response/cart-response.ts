@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { CartProductDto } from '../cart-product.dto';
+import { CartProductResponse } from './cart-product-response';
 
 @ObjectType()
 export class CartResponse {
@@ -12,6 +12,6 @@ export class CartResponse {
   @Field()
   total: number;
 
-  @Field(() => [CartProductDto])
-  products: CartProductDto[];
+  @Field(() => [CartProductResponse])
+  products: CartProductResponse[];
 }

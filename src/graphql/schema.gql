@@ -58,6 +58,30 @@ type Product {
   category: [Category!]!
 }
 
+type ResponseCategory {
+  name: String!
+}
+
+type ProductResponse {
+  id: Float!
+  uuid: String!
+  likes: Float!
+  category: ResponseCategory!
+}
+
+type CartProductResponse {
+  """quantity"""
+  quantity: Float!
+
+  """product"""
+  product: ProductResponse!
+}
+
+type CartResponse {
+  id: Float!
+  uuid: String!
+  total: Float!
+  products: [CartProductResponse!]!
 """Product with Images model"""
 type ProductImage {
   id: ID
@@ -78,6 +102,7 @@ type Query {
   products(pagination: PaginationQueryDto!): [Product!]!
   productsByCategory(uuid: String!): [Product!]!
   categories: [Category!]!
+  getCart: CartResponse!
 }
 
 input PaginationQueryDto {
@@ -97,6 +122,8 @@ type Mutation {
   getSignedUrl(input: ContentTypeInput!): Attachment!
   createCategory(input: CreateCategoryInput!): Category!
   updateCategory(input: UpdateCategoryInput!): Category!
+  addToCart(quantity: Float!, productUUid: String!): CartResponse!
+  removeFromCart(productUUid: String!): CartResponse!
   deleteCategory(uuid: String!): MessageResponseDto!
 }
 

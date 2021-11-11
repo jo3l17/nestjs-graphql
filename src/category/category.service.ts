@@ -28,7 +28,7 @@ export class CategoryService {
       });
       return plainToClass(ResponseCategoryDto, category);
     } catch (error) {
-      throw new BadRequestException('invalid name');
+      throw new BadRequestException('category already exists');
     }
   };
 

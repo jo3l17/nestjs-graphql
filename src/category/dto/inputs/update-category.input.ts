@@ -6,5 +6,6 @@ import { CreateCategoryInput } from './create-category.input';
 export class UpdateCategoryInput extends PartialType(CreateCategoryInput) {
   @Field()
   @IsString()
+  @Field({ description: 'Category uuid' })
   uuid?: string;
 }

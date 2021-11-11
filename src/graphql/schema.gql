@@ -74,12 +74,18 @@ type ProductImage {
 }
 
 type ResponseCategory {
+  """Category name"""
   name: String!
 }
 
 type ProductResponse {
+  """Product ID"""
   id: Float!
+
+  """Product UUID"""
   uuid: String!
+
+  """Product likes"""
   likes: Float!
   name: String!
   price: Float!
@@ -148,6 +154,8 @@ type Mutation {
   updateProduct(input: UpdateProductInput!): Product!
   deleteProduct(uuid: String!): MessageResponseDto!
   getSignedUrl(input: ContentTypeInput!): Attachment!
+  setLike(uuid: String!): MessageResponseDto!
+  deleteLike(uuid: String!): MessageResponseDto!
   createCategory(input: CreateCategoryInput!): Category!
   updateCategory(input: UpdateCategoryInput!): Category!
   deleteCategory(uuid: String!): MessageResponseDto!
@@ -169,32 +177,59 @@ input LoginUserInput {
 }
 
 input CreateProductInput {
+  """Product name"""
   name: String!
+
+  """Product stock"""
   stock: Float!
+
+  """Product price"""
   price: Float!
+
+  """Product status"""
   active: Boolean!
+
+  """Peoduct categories"""
   categoryName: [String!]
 }
 
 input UpdateProductInput {
+  """Product name"""
   name: String
+
+  """Product stock"""
   stock: Float
+
+  """Product price"""
   price: Float
+
+  """Product status"""
   active: Boolean
+
+  """Peoduct categories"""
   categoryName: [String!]
+
+  """Product UUID"""
   uuid: String
 }
 
 input ContentTypeInput {
+  """Product uuid"""
   productUuid: String!
+
+  """Image format"""
   contentType: String!
 }
 
 input CreateCategoryInput {
+  """Category name"""
   name: String
 }
 
 input UpdateCategoryInput {
+  """Category name"""
   name: String
+
+  """Category uuid"""
   uuid: String!
 }

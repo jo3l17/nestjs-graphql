@@ -4,13 +4,13 @@ import { CreateProductInput } from '../inputs/create-product.input';
 
 @ObjectType()
 export class ProductResponse extends PartialType(CreateProductInput) {
-  @Field()
+  @Field({ description: 'Product ID' })
   id: number;
 
-  @Field()
+  @Field({ description: 'Product UUID' })
   uuid: string;
 
-  @Field()
+  @Field({ description: 'Product likes' })
   likes: number;
 
   @Field()

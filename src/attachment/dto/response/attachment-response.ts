@@ -7,24 +7,22 @@ import {
 
 @ObjectType()
 export class AttachmentResponse implements Attachment {
-  @Field()
+  @Field({ description: 'ID of Attachment' })
   readonly id: number;
 
-  @Field()
+  @Field({ description: 'Key of Attachment' })
   readonly key: string;
 
-  @Field()
+  @Field({ description: 'Extention of Attachment' })
   readonly ext: FileExtensionEnum;
-
-  @Field()
   readonly contentType: TypesEnum;
 
-  @Field()
+  @Field({ description: 'Signed URL from AWS S3' })
   readonly signedUrl: string;
 
-  @Field()
-  readonly createdAt: Date;
+  @Field({ description: 'Date of creation' })
+  createdAt: Date;
 
-  @Field()
-  readonly productId: number;
+  @Field({ description: 'ID of Product' })
+  productId: number;
 }

@@ -37,7 +37,7 @@ export class OrderController {
 
   @UseGuards(jwtAuthGuard, AdminGuard)
   @Get(':uuid')
-  getOrder(@Param() uuid: string) {
-    return this.orderService.getOrder(uuid);
+  getOrder(@Param() uuid: string, @Request() req) {
+    return this.orderService.getOrder(uuid, req.user);
   }
 }

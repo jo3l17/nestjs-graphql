@@ -13,7 +13,7 @@ export class CartResolver {
 
   @UseGuards(GraphqlAuthGuard)
   @Query(() => CartResponse)
-  async getCart(@CurrentUser() user: JWTPayload): Promise<CartResponse> {
+  async cart(@CurrentUser() user: JWTPayload): Promise<CartResponse> {
     return await this.cartService.getCart(user.cartUuid);
   }
 
@@ -30,6 +30,7 @@ export class CartResolver {
       quantity,
     );
   }
+
   @UseGuards(GraphqlAuthGuard)
   @Mutation(() => CartResponse)
   async removeFromCart(

@@ -6,6 +6,6 @@ export class CartProductResponse {
   @Field({ description: 'quantity' })
   quantity: number;
 
-  @Field({ description: 'product' })
+  @Field(() => ProductResponse, { description: 'product' })
   product: ProductResponse;
 }

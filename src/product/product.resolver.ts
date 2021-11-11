@@ -32,7 +32,11 @@ export class ProductResolver {
 
   @Query(() => [Product])
   async products(
-    @Args({ name: 'pagination', type: () => PaginationQueryDto })
+    @Args({
+      name: 'pagination',
+      nullable: true,
+      type: () => PaginationQueryDto,
+    })
     pagination: PaginationQueryDto,
   ): Promise<ProductResponse[]> {
     return this.productService.findAll(pagination);

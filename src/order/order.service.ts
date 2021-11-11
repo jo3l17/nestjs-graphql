@@ -5,6 +5,7 @@ import {
   transformOrders,
   transformOrder,
 } from '../common/helpers/transform.helper';
+import { JWTPayload } from 'src/common/helpers/jwt.helper';
 
 @Injectable()
 export class OrderService {
@@ -26,10 +27,12 @@ export class OrderService {
     return transformOrders(orders);
   };
 
-  getOrder = async (uuid: string) => {
+  getOrder = async (uuid: string, user: JWTPayload) => {
+    const condition =
+      user.role === 'manager' ? {} : { user: { uuid: user.uuid } };
     try {
-      const order = await this.prismaService.order.findUnique({
-        where: { uuid },
+      const order = await this.prismaService.order.findFirst({
+        where: { uuid, ...condition },
         include: {
           products: {
             include: {

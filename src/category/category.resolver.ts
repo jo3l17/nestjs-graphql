@@ -35,7 +35,7 @@ export class CategoryResolver {
   async deleteCategory(
     @Args('uuid', { type: () => String })
     uuid: string,
-  ) {
+  ): Promise<MessageResponseDto> {
     return await this.categoryService.deleteCategory(uuid);
   }
 }

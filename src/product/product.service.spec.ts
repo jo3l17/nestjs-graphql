@@ -162,6 +162,7 @@ describe('ProductService', () => {
           active: false,
           stock: 20,
           categoryName: ['category3', 'category4'],
+          uuid: 'anything',
         },
       );
       expect(updatedProduct.name).toBe('test2');
@@ -182,6 +183,7 @@ describe('ProductService', () => {
         product.uuid,
         {
           name: 'test2',
+          uuid: 'anuthing',
         },
       );
       expect(updatedProduct.name).toBe('test2');

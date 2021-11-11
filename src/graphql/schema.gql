@@ -26,6 +26,16 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Attachment {
+  id: Float!
+  key: String!
+  ext: String!
+  contentType: String!
+  signedUrl: String
+  createdAt: DateTime!
+  productId: Float!
+}
+
 """Category model"""
 type Category {
   id: ID
@@ -72,10 +82,23 @@ type CartResponse {
   uuid: String!
   total: Float!
   products: [CartProductResponse!]!
+"""Product with Images model"""
+type ProductImage {
+  id: ID
+  uuid: String
+  name: String
+  stock: Float
+  price: Float
+  likes: Float
+  active: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+  imagesUrl: [Attachment!]!
+  category: [Category!]!
 }
 
 type Query {
-  product(uuid: String!): Product!
+  product(uuid: String!): ProductImage!
   products(pagination: PaginationQueryDto!): [Product!]!
   productsByCategory(uuid: String!): [Product!]!
   categories: [Category!]!
@@ -95,11 +118,13 @@ type Mutation {
   logout(token: String!): MessageResponseModel!
   createProduct(input: CreateProductInput!): Product!
   updateProduct(input: UpdateProductInput!): Product!
-  deleteCategory(uuid: String!): MessageResponseDto!
+  deleteProduct(uuid: String!): MessageResponseDto!
+  getSignedUrl(input: ContentTypeInput!): Attachment!
   createCategory(input: CreateCategoryInput!): Category!
   updateCategory(input: UpdateCategoryInput!): Category!
   addToCart(quantity: Float!, productUUid: String!): CartResponse!
   removeFromCart(productUUid: String!): CartResponse!
+  deleteCategory(uuid: String!): MessageResponseDto!
 }
 
 input CreateUserInput {
@@ -129,6 +154,11 @@ input UpdateProductInput {
   active: Boolean
   categoryName: [String!]
   uuid: String
+}
+
+input ContentTypeInput {
+  productUuid: String!
+  contentType: String!
 }
 
 input CreateCategoryInput {

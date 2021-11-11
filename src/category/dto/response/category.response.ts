@@ -3,6 +3,6 @@ import { CreateCategoryInput } from '../inputs/create-category.input';
 
 @ObjectType()
 export class ResponseCategory extends PartialType(CreateCategoryInput) {
-  @Field()
+  @Field({ description: 'Category name' })
   readonly name?: string;
 }

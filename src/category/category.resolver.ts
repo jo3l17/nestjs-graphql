@@ -1,5 +1,8 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { MessageResponseDto } from 'src/common/dto/message-response.dto';
+import { AdminGuard } from 'src/common/guards/admin.guard';
+import { GraphqlAuthGuard } from 'src/common/guards/graphql.guard';
 import { CategoryService } from './category.service';
 import { CreateCategoryInput } from './dto/inputs/create-category.input';
 import { UpdateCategoryInput } from './dto/inputs/update-category.input';
@@ -15,6 +18,7 @@ export class CategoryResolver {
     return this.categoryService.findAll();
   }
 
+  @UseGuards(GraphqlAuthGuard, AdminGuard)
   @Mutation(() => Category)
   async createCategory(
     @Args({ name: 'input', type: () => CreateCategoryInput })
@@ -23,6 +27,7 @@ export class CategoryResolver {
     return await this.categoryService.createCategory(data);
   }
 
+  @UseGuards(GraphqlAuthGuard, AdminGuard)
   @Mutation(() => Category)
   async updateCategory(
     @Args({ name: 'input', type: () => UpdateCategoryInput })
@@ -31,6 +36,7 @@ export class CategoryResolver {
     return await this.categoryService.updateCategory(data.uuid, data);
   }
 
+  @UseGuards(GraphqlAuthGuard, AdminGuard)
   @Mutation(() => MessageResponseDto)
   async deleteCategory(
     @Args('uuid', { type: () => String })

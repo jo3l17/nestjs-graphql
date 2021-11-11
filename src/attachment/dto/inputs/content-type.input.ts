@@ -5,10 +5,10 @@ import { TypesEnum } from '../../../attachment/enums/attachment.enum';
 @InputType()
 export class ContentTypeInput {
   @Allow()
-  @Field()
+  @Field({ description: 'Product uuid' })
   productUuid: string;
 
   @Allow()
-  @Field()
+  @Field({ description: 'Image format' })
   contentType: TypesEnum;
 }

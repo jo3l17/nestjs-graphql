@@ -8,6 +8,7 @@ import { join } from 'path';
       introspection: true,
       autoSchemaFile: join(process.cwd(), 'src/graphql/schema.gql'),
       context: ({ req }) => ({ req }),
+      playground: true,
     }),
   ],
 })

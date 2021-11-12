@@ -13,6 +13,9 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { TokenDto } from './dto/token.dto';
+import { generate } from 'generate-password';
+import { plainToClass } from 'class-transformer';
+import { ResetPasswordResponse } from './dto/response/reset-password-response';
 
 @Injectable()
 export class AuthService {
@@ -58,6 +61,46 @@ export class AuthService {
     );
     await sgMail.send(email);
     return { token: token.token, expiration: token.expiresAt };
+  }
+
+  async resetForgotPassword(email: string): Promise<ResetPasswordResponse> {
+    let user = null;
+    try {
+      user = await this.prismaService.user.findUnique({
+        where: {
+          email: email,
+        },
+        select: {
+          name: true,
+          email: true,
+          password: true,
+        },
+      });
+    } catch (error) {
+      throw new NotFoundException(`Email ${email} doesn't exist`);
+    }
+
+    const newPassword = generate({ length: 8, numbers: true });
+
+    await this.prismaService.user.update({
+      where: {
+        email: email,
+      },
+      data: {
+        password: newPassword,
+      },
+    });
+
+    const emailPassword = createEmail(
+      user.email,
+      'Password reset',
+      `Hello ${user.name} this is your new password: ${user.password}`,
+    );
+    await sgMail.send(emailPassword);
+
+    return plainToClass(ResetPasswordResponse, {
+      mesage: `Check your email, your new password was sent to ${email}`,
+    });
   }
 
   verifyToken = async (token: string): Promise<MessageResponseDto> => {

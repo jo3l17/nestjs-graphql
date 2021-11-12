@@ -5,6 +5,7 @@ import { CreateUserInput } from './dto/input/create-user.input';
 import { LoginUserInput } from './dto/input/login-user.input';
 import { User } from './model/user.model';
 import { TokenModel } from './model/token.model';
+import { ResetPasswordResponse } from './dto/response/reset-password-response';
 
 @Resolver(() => User)
 export class AuthResolver {
@@ -45,5 +46,13 @@ export class AuthResolver {
     @Args({ name: 'token', type: () => String }) token: string,
   ): Promise<MessageResponseModel> {
     return await this.authService.logout(token);
+  }
+
+  @Mutation(() => ResetPasswordResponse)
+  async resetPassword(
+    @Args('email', { type: () => String })
+    email: string,
+  ): Promise<ResetPasswordResponse> {
+    return await this.authService.resetForgotPassword(email);
   }
 }

@@ -15,6 +15,7 @@ import { ProductImage } from './model/product-image.model';
 import { ProductService } from './product.service';
 import { CurrentUser } from '../common/decorators/user.decorator';
 import { JWTPayload } from '../common/helpers/jwt.helper';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver(() => Product)
 export class ProductResolver {

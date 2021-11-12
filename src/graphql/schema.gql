@@ -2,6 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type ResetPasswordResponse {
+  """email nessage response"""
+  message: String!
+}
+
 """message"""
 type MessageResponseDto {
   message: String!
@@ -69,21 +74,6 @@ type ProductImage {
   active: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
-  imagesUrl: [Attachment!]!
-  category: [Category!]!
-}
-
-"""Product with Images model"""
-type ProductImage {
-  id: ID
-  uuid: String
-  name: String
-  stock: Float
-  price: Float
-  likes: Float
-  active: Boolean
-  createdAt: DateTime
-  updatedAt: DateTime
   imagesUrl: [Attachment!]!
   category: [Category!]!
 }
@@ -165,6 +155,7 @@ type Mutation {
   verifyToken(token: String!): MessageResponseModel!
   refreshToken(token: String!): TokenModel!
   logout(token: String!): MessageResponseModel!
+  resetPassword(email: String!): ResetPasswordResponse!
   createProduct(input: CreateProductInput!): Product!
   updateProduct(input: UpdateProductInput!): Product!
   deleteProduct(uuid: String!): MessageResponseDto!

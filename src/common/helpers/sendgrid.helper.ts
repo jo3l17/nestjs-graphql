@@ -26,4 +26,27 @@ const createEmail = (
   return msg;
 };
 
-export { sgMail, createEmail, HOST };
+const emailLikedProducts = async (
+  to: string[] | string,
+  stock: number,
+  product: string,
+  imageUrl: string,
+) => {
+  sgMail.setSubstitutionWrappers('{{', '}}');
+  const msg: sgMail.MailDataRequired = {
+    to,
+    from: process.env.SENDGRID_EMAIL,
+    templateId:
+      imageUrl === ''
+        ? process.env.SENDGRID_TEMPLATE_ID
+        : process.env.SENDGRID_TEMPLATE_ID_IMAGE,
+    dynamicTemplateData: {
+      image: imageUrl,
+      stock,
+      product,
+    },
+  };
+  await sgMail.send(msg);
+};
+
+export { sgMail, createEmail, emailLikedProducts, HOST };

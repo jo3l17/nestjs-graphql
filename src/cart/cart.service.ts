@@ -1,11 +1,16 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { AttachmentService } from 'src/attachment/attachment.service';
+import { emailLikedProducts } from 'src/common/helpers/sendgrid.helper';
 import { transformCart } from '../common/helpers/transform.helper';
 import { PrismaService } from '../prisma/prisma.service';
 import { CartResponseDto } from './dto/cart-response.dto';
 
 @Injectable()
 export class CartService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(
+    private prismaService: PrismaService,
+    private readonly attachmentService: AttachmentService,
+  ) {}
   addToCart = async (
     productUuid: string,
     cartUuid: string,
@@ -23,7 +28,7 @@ export class CartService {
     if (quantity > product.stock) {
       throw new BadRequestException('Insufficient stock');
     }
-    await this.prismaService.product.update({
+    const productUpdated = await this.prismaService.product.update({
       where: {
         uuid: productUuid,
       },
@@ -33,6 +38,38 @@ export class CartService {
         },
       },
     });
+
+    const usersLikedProdcut = await this.prismaService.user.findMany({
+      select: {
+        email: true,
+      },
+      where: {
+        productsLikes: {
+          some: {
+            product: {
+              uuid: productUuid,
+            },
+          },
+        },
+      },
+    });
+
+    if (productUpdated.stock <= 3 && productUpdated.stock > 0) {
+      const emails = usersLikedProdcut.map((user) => user.email);
+      const image = await this.attachmentService.getImages(productUpdated.uuid);
+      let imageUrl = '';
+      if (image.length > 0) {
+        imageUrl = image[0];
+      }
+      console.log(imageUrl);
+      await emailLikedProducts(
+        emails,
+        productUpdated.stock,
+        productUpdated.name,
+        imageUrl,
+      );
+    }
+
     const updatedCart = await this.prismaService.cart.update({
       include: {
         products: {

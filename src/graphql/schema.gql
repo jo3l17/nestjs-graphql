@@ -36,6 +36,11 @@ type Attachment {
   productId: Float!
 }
 
+type ReadImageProduct {
+  """URL Images of Product"""
+  imagesUrl: [String!]!
+}
+
 """Category model"""
 type Category {
   id: ID
@@ -55,21 +60,6 @@ type Product {
   active: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
-  category: [Category!]!
-}
-
-"""Product with Images model"""
-type ProductImage {
-  id: ID!
-  uuid: String!
-  name: String!
-  stock: Float!
-  price: Float!
-  likes: Float!
-  active: Boolean!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  imagesUrl: [Attachment!]!
   category: [Category!]!
 }
 
@@ -130,7 +120,7 @@ type OrderResponse {
 }
 
 type Query {
-  product(uuid: String!): ProductImage!
+  product(uuid: String!): ReadImageProduct!
   products(pagination: PaginationQueryDto): [Product!]!
   productsByCategory(uuid: String!): [Product!]!
   categories: [Category!]!

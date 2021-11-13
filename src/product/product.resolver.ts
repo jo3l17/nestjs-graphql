@@ -11,7 +11,6 @@ import { ReadImageProduct } from './dto/response/read-image-product';
 import { AdminGuard } from '../common/guards/admin.guard';
 import { GraphqlAuthGuard } from '../common/guards/graphql.guard';
 import { Product } from './model/product.model';
-import { ProductImage } from './model/product-image.model';
 import { ProductService } from './product.service';
 import { CurrentUser } from '../common/decorators/user.decorator';
 import { JWTPayload } from '../common/helpers/jwt.helper';
@@ -21,7 +20,7 @@ import { UseGuards } from '@nestjs/common';
 export class ProductResolver {
   constructor(private readonly productService: ProductService) {}
 
-  @Query(() => ProductImage)
+  @Query(() => ReadImageProduct)
   async product(
     @Args('uuid', { type: () => String })
     uuid: string,

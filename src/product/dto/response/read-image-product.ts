@@ -1,7 +1,8 @@
-import { Field, PartialType } from '@nestjs/graphql';
+import { Field, ObjectType, PartialType } from '@nestjs/graphql';
 import { CreateProductInput } from '../inputs/create-product.input';
 
+@ObjectType()
 export class ReadImageProduct extends PartialType(CreateProductInput) {
-  @Field({ description: 'URL Images of Product' })
+  @Field(() => [String], { description: 'URL Images of Product' })
   imagesUrl?: string[];
 }

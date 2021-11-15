@@ -23,7 +23,7 @@ export class AuthResolver {
   }
 
   @Mutation(() => TokenModel)
-  async signin(
+  async signIn(
     @Args({ name: 'input', type: () => LoginUserInput })
     data: LoginUserInput,
   ): Promise<TokenModel> {
@@ -45,7 +45,7 @@ export class AuthResolver {
 
   @UseGuards(GraphqlAuthGuard)
   @Mutation(() => MessageResponseModel)
-  async logout(@TokenHeader() token: string): Promise<MessageResponseModel> {
+  async logOut(@TokenHeader() token: string): Promise<MessageResponseModel> {
     return await this.authService.logout(token);
   }
 

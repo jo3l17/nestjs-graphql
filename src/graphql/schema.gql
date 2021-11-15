@@ -143,10 +143,10 @@ input PaginationQueryDto {
 
 type Mutation {
   signup(input: CreateUserInput!): TokenModel!
-  signin(input: LoginUserInput!): TokenModel!
+  signIn(input: LoginUserInput!): TokenModel!
   verifyToken(token: String!): MessageResponseModel!
   refreshToken: TokenModel!
-  logout: MessageResponseModel!
+  logOut: MessageResponseModel!
   recoveryPassword(email: String!): TokenModel!
   resetPassword(input: ResetPasswordInput!): MessageResponseModel!
   createProduct(input: CreateProductInput!): Product!

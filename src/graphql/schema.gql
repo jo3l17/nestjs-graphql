@@ -140,6 +140,8 @@ type Mutation {
   verifyToken(token: String!): MessageResponseModel!
   refreshToken(token: String!): TokenModel!
   logout(token: String!): MessageResponseModel!
+  recoveryPassword(email: String!): TokenModel!
+  resetPassword(password: String!, token: String!): MessageResponseModel!
   createProduct(input: CreateProductInput!): Product!
   updateProduct(input: UpdateProductInput!): Product!
   deleteProduct(uuid: String!): MessageResponseDto!

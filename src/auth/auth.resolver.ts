@@ -46,4 +46,19 @@ export class AuthResolver {
   ): Promise<MessageResponseModel> {
     return await this.authService.logout(token);
   }
+
+  @Mutation(() => TokenModel)
+  async recoveryPassword(
+    @Args({ name: 'email', type: () => String }) email: string,
+  ): Promise<TokenModel> {
+    return await this.authService.recoveryPassword(email);
+  }
+
+  @Mutation(() => MessageResponseModel)
+  async resetPassword(
+    @Args({ name: 'token', type: () => String }) token: string,
+    @Args({ name: 'password', type: () => String }) password: string,
+  ): Promise<MessageResponseModel> {
+    return await this.authService.resetPassword(token, password);
+  }
 }

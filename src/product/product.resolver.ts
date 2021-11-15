@@ -14,6 +14,7 @@ import { ProductService } from './product.service';
 import { CurrentUser } from '../common/decorators/user.decorator';
 import { JWTPayload } from '../common/helpers/jwt.helper';
 import { UseGuards } from '@nestjs/common';
+import { ProductResponsePagination } from './dto/response/product-pagination';
 
 @Resolver(() => Product)
 export class ProductResolver {
@@ -33,8 +34,8 @@ export class ProductResolver {
     first: number,
     @Args('offset', { type: () => Number, nullable: true })
     offset: number,
-  ): Promise<ProductResponse[]> {
-    return this.productService.findAll({ limit: first, offset: offset });
+  ): Promise<ProductResponsePagination> {
+    return this.productService.findAllPagination(first, offset);
   }
 
   @Query(() => [Product])

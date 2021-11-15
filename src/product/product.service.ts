@@ -16,6 +16,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductResponseDto } from './dto/product-response.dto';
 import { MessageResponseDto } from '../common/dto/message-response.dto';
 import { ProductResponse } from './dto/response/product-response';
+import { ProductResponsePagination } from './dto/response/product-pagination';
 
 @Injectable()
 export class ProductService {
@@ -345,4 +346,68 @@ export class ProductService {
     });
     return attachment;
   }
+
+  findAllPagination = async (
+    first?: number,
+    offset?: number,
+    uuid = '',
+  ): Promise<ProductResponsePagination> => {
+    const total = await this.prismaService.product.count({
+      where: {
+        active: true,
+      },
+    });
+    const queryNext = await this.prismaService.product.findMany({
+      skip: offset - first,
+      take: 1,
+      where: {
+        active: true,
+      },
+      select: {
+        id: true,
+      },
+    });
+    const queryPrev = await this.prismaService.product.findMany({
+      skip: offset - 1,
+      take: 1,
+      where: {
+        active: true,
+      },
+      select: {
+        id: true,
+      },
+    });
+    const nextPage = queryNext.length > 0 ? true : false;
+    const prevPage = queryPrev.length > 0 ? true : false;
+
+    const query = await this.prismaService.product.findMany({
+      skip: offset,
+      take: first,
+      where: {
+        active: uuid === '' ? true : {},
+      },
+      select: {
+        id: true,
+        uuid: true,
+        stock: true,
+        price: true,
+        active: true,
+        name: true,
+        category: { select: { name: true, uuid: true } },
+        likes: true,
+      },
+    });
+    const response = query.map((product) =>
+      plainToClass(ProductResponse, {
+        ...product,
+        price: product.price.toNumber(),
+      }),
+    );
+    console.log(response);
+    return plainToClass(ProductResponsePagination, {
+      totalCount: total,
+      edges: { node: response },
+      pageInfo: { hasNextPage: nextPage, hasPrevPage: prevPage },
+    });
+  };
 }

@@ -52,6 +52,15 @@ describe('CategoryService', () => {
     );
   });
 
+  it('should throw category already exists', async () => {
+    const cat = {
+      name: 'category1',
+    };
+    await expect(service.createCategory(cat)).rejects.toThrow(
+      new BadRequestException('category already exists'),
+    );
+  });
+
   it('should update a category', async () => {
     const category = await prisma.category.findUnique({
       where: {
@@ -76,7 +85,7 @@ describe('CategoryService', () => {
 
     await expect(
       service.updateCategory(data.mockUuid, data.category),
-    ).rejects.toThrow(new NotFoundException('id not found'));
+    ).rejects.toThrow(new NotFoundException(`${data.mockUuid} not found`));
   });
 
   it('should delete an category', async () => {
@@ -85,9 +94,9 @@ describe('CategoryService', () => {
         name: 'category3',
       },
     });
-    await expect(service.deleteCategory(category.uuid)).resolves.toMatchObject(
-      category,
-    );
+    await expect(service.deleteCategory(category.uuid)).resolves.toMatchObject({
+      message: `Category #${category.uuid} deleted successfull`,
+    });
   });
 
   it('should throw error when id do not exist', async () => {

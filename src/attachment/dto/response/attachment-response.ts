@@ -3,7 +3,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import {
   TypesEnum,
   FileExtensionEnum,
-} from 'src/attachment/enums/attachment.enum';
+} from '../../../attachment/enums/attachment.enum';
 
 @ObjectType()
 export class AttachmentResponse implements Attachment {

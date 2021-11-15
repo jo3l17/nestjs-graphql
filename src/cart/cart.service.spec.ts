@@ -1,9 +1,18 @@
 import { Cart, Product, User } from '.prisma/client';
 import { BadRequestException } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
+import { AttachmentService } from '../attachment/attachment.service';
+import attachmentConfig from '../attachment/config/attachment.config';
 import { PrismaModule } from '../prisma/prisma.module';
 import { PrismaService } from '../prisma/prisma.service';
 import { CartService } from './cart.service';
+import { emailLikedProducts } from '../common/helpers/sendgrid.helper';
+jest.mock('../common/helpers/sendgrid.helper');
+
+const mockedEmails = <jest.Mock<typeof emailLikedProducts>>(
+  (<unknown>emailLikedProducts)
+);
 
 describe('CartService', () => {
   let service: CartService;
@@ -15,8 +24,8 @@ describe('CartService', () => {
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [PrismaModule],
-      providers: [CartService],
+      imports: [PrismaModule, ConfigModule.forFeature(attachmentConfig)],
+      providers: [CartService, AttachmentService],
     }).compile();
 
     service = module.get<CartService>(CartService);
@@ -104,6 +113,10 @@ describe('CartService', () => {
         expect(e).toBeInstanceOf(BadRequestException);
         expect(e.message).toBe('Insufficient stock');
       }
+    });
+    it('should send an email to all user who liked the product', async () => {
+      await service.addToCart(product1.uuid, cart.uuid, 17);
+      expect(mockedEmails).toBeCalled();
     });
   });
   describe('removeFromCart', () => {

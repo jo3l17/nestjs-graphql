@@ -40,6 +40,15 @@ type ProductResponse {
   category: ResponseCategory!
 }
 
+type Edges {
+  node: [ProductResponse!]
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPrevPage: Boolean!
+}
+
 type Attachment {
   id: Float!
   key: String!

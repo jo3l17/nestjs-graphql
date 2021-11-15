@@ -4,7 +4,7 @@ import { CategoryController } from './category.controller';
 import { CategoryResolver } from './category.resolver';
 
 @Module({
-  providers: [CategoryService, CategoryResolver],
   controllers: [CategoryController],
+  providers: [CategoryService, CategoryResolver],
 })
 export class CategoryModule {}

@@ -2,8 +2,8 @@ import { OrderResponseDto } from '../../order/dto/order-response.dto';
 import { plainToClass } from 'class-transformer';
 import { OrderProductDto } from '../../order/dto/order-product.dto';
 import { ProductResponseDto } from '../../product/dto/product-response.dto';
-import { CartProductDto } from 'src/cart/dto/cart-product.dto';
-import { CartResponseDto } from 'src/cart/dto/cart-response.dto';
+import { CartProductDto } from '../../cart/dto/cart-product.dto';
+import { CartResponseDto } from '../../cart/dto/cart-response.dto';
 
 export const transformOrders = (orders): OrderResponseDto[] => {
   return orders.map((order) =>

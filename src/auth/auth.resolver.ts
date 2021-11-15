@@ -5,9 +5,9 @@ import { CreateUserInput } from './dto/input/create-user.input';
 import { LoginUserInput } from './dto/input/login-user.input';
 import { User } from './model/user.model';
 import { TokenModel } from './model/token.model';
-import { TokenHeader } from 'src/common/decorators/token.decorator';
+import { TokenHeader } from '../common/decorators/token.decorator';
 import { UseGuards } from '@nestjs/common';
-import { GraphqlAuthGuard } from 'src/common/guards/graphql.guard';
+import { GraphqlAuthGuard } from '../common/guards/graphql.guard';
 import { ResetPasswordInput } from './dto/input/reset-password.input';
 
 @Resolver(() => User)

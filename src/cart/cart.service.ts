@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { AttachmentService } from 'src/attachment/attachment.service';
-import { emailLikedProducts } from 'src/common/helpers/sendgrid.helper';
+import { AttachmentService } from '../attachment/attachment.service';
+import { emailLikedProducts } from '../common/helpers/sendgrid.helper';
 import { transformCart } from '../common/helpers/transform.helper';
 import { PrismaService } from '../prisma/prisma.service';
 import { CartResponseDto } from './dto/cart-response.dto';

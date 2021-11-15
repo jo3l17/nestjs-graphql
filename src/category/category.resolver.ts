@@ -1,6 +1,6 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { MessageResponseModel } from 'src/common/model/message-response.model';
+import { MessageResponseModel } from '../common/model/message-response.model';
 import { AdminGuard } from '../common/guards/admin.guard';
 import { GraphqlAuthGuard } from '../common/guards/graphql.guard';
 import { CategoryService } from './category.service';

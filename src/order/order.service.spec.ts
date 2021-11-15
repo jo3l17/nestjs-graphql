@@ -8,6 +8,10 @@ import { PrismaService } from '../prisma/prisma.service';
 import { OrderService } from './order.service';
 import { PrismaModule } from '../prisma/prisma.module';
 import { CartResponseDto } from '../cart/dto/cart-response.dto';
+import { JWTPayload } from '../common/helpers/jwt.helper';
+import { ConfigModule } from '@nestjs/config';
+import attachmentConfig from '../attachment/config/attachment.config';
+import { AttachmentService } from '../attachment/attachment.service';
 
 describe('OrderService', () => {
   let service: OrderService;
@@ -20,8 +24,8 @@ describe('OrderService', () => {
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [PrismaModule],
-      providers: [OrderService, CartService],
+      imports: [PrismaModule, ConfigModule.forFeature(attachmentConfig)],
+      providers: [OrderService, CartService, AttachmentService],
     }).compile();
 
     service = module.get<OrderService>(OrderService);
@@ -120,13 +124,16 @@ describe('OrderService', () => {
       const orders = await service.getOrders(
         plainToClass(PaginationQueryDto, {}),
       );
-      const order = await service.getOrder(orders[0].uuid);
+      const order = await service.getOrder(orders[0].uuid, {
+        uuid: user.uuid,
+        role: 'user',
+      } as JWTPayload);
       expect(order).toBeDefined();
     });
     it('should throw No Order Found', async () => {
       expect.assertions(2);
       try {
-        await service.getOrder('123');
+        await service.getOrder('123', {} as JWTPayload);
       } catch (e) {
         expect(e).toBeInstanceOf(BadRequestException);
         expect(e.message).toBe('No Order Found');

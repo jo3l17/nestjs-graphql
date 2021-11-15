@@ -3,7 +3,6 @@ import { AttachmentDto } from '../attachment/dto/attachment.dto';
 import { ContentTypeInput } from '../attachment/dto/inputs/content-type.input';
 import { Attachment } from '../attachment/model/attachment';
 import { MessageResponseDto } from '../common/dto/message-response.dto';
-import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { CreateProductInput } from './dto/inputs/create-product.input';
 import { UpdateProductInput } from './dto/inputs/update-product.input';
 import { ProductResponse } from './dto/response/product-response';
@@ -30,14 +29,12 @@ export class ProductResolver {
 
   @Query(() => [Product])
   async products(
-    @Args({
-      name: 'pagination',
-      nullable: true,
-      type: () => PaginationQueryDto,
-    })
-    pagination: PaginationQueryDto,
+    @Args('first', { type: () => Number, nullable: true })
+    first: number,
+    @Args('offset', { type: () => Number, nullable: true })
+    offset: number,
   ): Promise<ProductResponse[]> {
-    return this.productService.findAll(pagination);
+    return this.productService.findAll({ limit: first, offset: offset });
   }
 
   @Query(() => [Product])

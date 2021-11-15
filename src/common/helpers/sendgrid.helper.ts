@@ -56,7 +56,7 @@ const recoverPasswordEmail = async (to: string, token: string) => {
     from: process.env.SENDGRID_EMAIL,
     templateId: process.env.SENDGRID_TEMPLATE_ID_RECOVER,
     dynamicTemplateData: {
-      link: HOST + 'graphql',
+      link: HOST + '/graphql',
       token,
     },
   };

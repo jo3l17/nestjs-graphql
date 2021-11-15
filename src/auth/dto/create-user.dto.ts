@@ -7,6 +7,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  Length,
 } from 'class-validator';
 
 @InputType()
@@ -27,6 +28,7 @@ export class CreateUserDto {
   @IsNotEmpty({ message: 'password is required' })
   @IsString()
   @Field()
+  @Length(8, 255)
   password: string;
 
   @ApiProperty({ description: 'Role', examples: ['user', 'manager'] })

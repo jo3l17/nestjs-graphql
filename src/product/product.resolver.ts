@@ -2,7 +2,6 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AttachmentDto } from '../attachment/dto/attachment.dto';
 import { ContentTypeInput } from '../attachment/dto/inputs/content-type.input';
 import { Attachment } from '../attachment/model/attachment';
-import { MessageResponseDto } from '../common/dto/message-response.dto';
 import { CreateProductInput } from './dto/inputs/create-product.input';
 import { UpdateProductInput } from './dto/inputs/update-product.input';
 import { ProductResponse } from './dto/response/product-response';
@@ -14,6 +13,7 @@ import { ProductService } from './product.service';
 import { CurrentUser } from '../common/decorators/user.decorator';
 import { JWTPayload } from '../common/helpers/jwt.helper';
 import { UseGuards } from '@nestjs/common';
+import { MessageResponseModel } from '../common/model/message-response.model';
 
 @Resolver(() => Product)
 export class ProductResolver {
@@ -67,11 +67,11 @@ export class ProductResolver {
   }
 
   @UseGuards(GraphqlAuthGuard, AdminGuard)
-  @Mutation(() => MessageResponseDto)
+  @Mutation(() => MessageResponseModel)
   async deleteProduct(
     @Args('uuid', { type: () => String })
     uuid: string,
-  ): Promise<MessageResponseDto> {
+  ): Promise<MessageResponseModel> {
     return await this.productService.deleteProduct(uuid);
   }
 
@@ -88,7 +88,7 @@ export class ProductResolver {
   }
 
   @UseGuards(GraphqlAuthGuard)
-  @Mutation(() => MessageResponseDto)
+  @Mutation(() => MessageResponseModel)
   async setLike(
     @CurrentUser() user: JWTPayload,
     @Args('uuid', { type: () => String })
@@ -98,7 +98,7 @@ export class ProductResolver {
   }
 
   @UseGuards(GraphqlAuthGuard)
-  @Mutation(() => MessageResponseDto)
+  @Mutation(() => MessageResponseModel)
   async deleteLike(
     @CurrentUser() user: JWTPayload,
     @Args('uuid', { type: () => String })

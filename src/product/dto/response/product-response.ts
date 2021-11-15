@@ -1,9 +1,8 @@
-import { Field, ObjectType, PartialType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { ResponseCategory } from '../../../category/dto/response/category-response';
-import { CreateProductInput } from '../inputs/create-product.input';
 
 @ObjectType()
-export class ProductResponse extends PartialType(CreateProductInput) {
+export class ProductResponse {
   @Field({ description: 'Product ID' })
   id: number;
 

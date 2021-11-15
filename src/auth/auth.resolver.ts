@@ -5,6 +5,10 @@ import { CreateUserInput } from './dto/input/create-user.input';
 import { LoginUserInput } from './dto/input/login-user.input';
 import { User } from './model/user.model';
 import { TokenModel } from './model/token.model';
+import { TokenHeader } from 'src/common/decorators/token.decorator';
+import { UseGuards } from '@nestjs/common';
+import { GraphqlAuthGuard } from 'src/common/guards/graphql.guard';
+import { ResetPasswordInput } from './dto/input/reset-password.input';
 
 @Resolver(() => User)
 export class AuthResolver {
@@ -33,17 +37,15 @@ export class AuthResolver {
     return await this.authService.verifyToken(token);
   }
 
+  @UseGuards(GraphqlAuthGuard)
   @Mutation(() => TokenModel)
-  async refreshToken(
-    @Args({ name: 'token', type: () => String }) token: string,
-  ): Promise<TokenModel> {
+  async refreshToken(@TokenHeader() token: string): Promise<TokenModel> {
     return await this.authService.refreshToken(token);
   }
 
+  @UseGuards(GraphqlAuthGuard)
   @Mutation(() => MessageResponseModel)
-  async logout(
-    @Args({ name: 'token', type: () => String }) token: string,
-  ): Promise<MessageResponseModel> {
+  async logout(@TokenHeader() token: string): Promise<MessageResponseModel> {
     return await this.authService.logout(token);
   }
 
@@ -56,9 +58,9 @@ export class AuthResolver {
 
   @Mutation(() => MessageResponseModel)
   async resetPassword(
-    @Args({ name: 'token', type: () => String }) token: string,
-    @Args({ name: 'password', type: () => String }) password: string,
+    @Args({ name: 'input', type: () => ResetPasswordInput })
+    body: ResetPasswordInput,
   ): Promise<MessageResponseModel> {
-    return await this.authService.resetPassword(token, password);
+    return await this.authService.resetPassword(body.token, body.password);
   }
 }

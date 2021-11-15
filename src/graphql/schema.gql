@@ -2,11 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-"""message"""
-type MessageResponseDto {
-  message: String!
-}
-
 """Message"""
 type MessageResponseModel {
   message: String!
@@ -26,6 +21,25 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type ResponseCategory {
+  """Category name"""
+  name: String!
+}
+
+type ProductResponse {
+  """Product ID"""
+  id: Float!
+
+  """Product UUID"""
+  uuid: String!
+
+  """Product likes"""
+  likes: Float!
+  name: String!
+  price: Float!
+  category: ResponseCategory!
+}
+
 type Attachment {
   id: Float!
   key: String!
@@ -37,6 +51,18 @@ type Attachment {
 }
 
 type ReadImageProduct {
+  """Product ID"""
+  id: Float
+
+  """Product UUID"""
+  uuid: String
+
+  """Product likes"""
+  likes: Float
+  name: String
+  price: Float
+  category: ResponseCategory
+
   """URL Images of Product"""
   imagesUrl: [String!]!
 }
@@ -61,25 +87,6 @@ type Product {
   createdAt: DateTime!
   updatedAt: DateTime!
   category: [Category!]!
-}
-
-type ResponseCategory {
-  """Category name"""
-  name: String!
-}
-
-type ProductResponse {
-  """Product ID"""
-  id: Float!
-
-  """Product UUID"""
-  uuid: String!
-
-  """Product likes"""
-  likes: Float!
-  name: String!
-  price: Float!
-  category: ResponseCategory!
 }
 
 type CartProductResponse {
@@ -121,7 +128,7 @@ type OrderResponse {
 
 type Query {
   product(uuid: String!): ReadImageProduct!
-  products(pagination: PaginationQueryDto): [Product!]!
+  products(offset: Float, first: Float): [Product!]!
   productsByCategory(uuid: String!): [Product!]!
   categories: [Category!]!
   cart: CartResponse!
@@ -138,19 +145,19 @@ type Mutation {
   signup(input: CreateUserInput!): TokenModel!
   signin(input: LoginUserInput!): TokenModel!
   verifyToken(token: String!): MessageResponseModel!
-  refreshToken(token: String!): TokenModel!
-  logout(token: String!): MessageResponseModel!
+  refreshToken: TokenModel!
+  logout: MessageResponseModel!
   recoveryPassword(email: String!): TokenModel!
-  resetPassword(password: String!, token: String!): MessageResponseModel!
+  resetPassword(input: ResetPasswordInput!): MessageResponseModel!
   createProduct(input: CreateProductInput!): Product!
   updateProduct(input: UpdateProductInput!): Product!
-  deleteProduct(uuid: String!): MessageResponseDto!
+  deleteProduct(uuid: String!): MessageResponseModel!
   getSignedUrl(input: ContentTypeInput!): Attachment!
-  setLike(uuid: String!): MessageResponseDto!
-  deleteLike(uuid: String!): MessageResponseDto!
+  setLike(uuid: String!): MessageResponseModel!
+  deleteLike(uuid: String!): MessageResponseModel!
   createCategory(input: CreateCategoryInput!): Category!
   updateCategory(input: UpdateCategoryInput!): Category!
-  deleteCategory(uuid: String!): MessageResponseDto!
+  deleteCategory(uuid: String!): MessageResponseModel!
   addToCart(quantity: Float!, productUUid: String!): CartResponse!
   removeFromCart(productUUid: String!): CartResponse!
   createOrder: OrderResponse!
@@ -165,6 +172,11 @@ input CreateUserInput {
 
 input LoginUserInput {
   email: String!
+  password: String!
+}
+
+input ResetPasswordInput {
+  token: String!
   password: String!
 }
 

@@ -15,6 +15,7 @@ import { ReadImageProductDto } from './dto/read-image-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductResponseDto } from './dto/product-response.dto';
 import { MessageResponseDto } from '../common/dto/message-response.dto';
+import { ProductResponse } from './dto/response/product-response';
 
 @Injectable()
 export class ProductService {
@@ -26,7 +27,7 @@ export class ProductService {
   findAll = async (
     paginationQueryDto: PaginationQueryDto,
     uuid = '',
-  ): Promise<ProductResponseDto[]> => {
+  ): Promise<ProductResponse[]> => {
     const { limit, offset } = paginationQueryDto;
     const query = await this.prismaService.product.findMany({
       skip: offset,
@@ -46,7 +47,7 @@ export class ProductService {
       },
     });
     const response = query.map((product) =>
-      plainToClass(ProductResponseDto, {
+      plainToClass(ProductResponse, {
         ...product,
         price: product.price.toNumber(),
       }),

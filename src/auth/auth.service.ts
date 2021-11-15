@@ -7,7 +7,12 @@ import {
 import { MessageResponseDto } from '../common/dto/message-response.dto';
 import { compare, hashPassword } from '../common/helpers/encrypt.helper';
 import { generateToken, JWTPayload } from '../common/helpers/jwt.helper';
-import { createEmail, HOST, sgMail } from '../common/helpers/sendgrid.helper';
+import {
+  createEmail,
+  HOST,
+  recoverPasswordEmail,
+  sgMail,
+} from '../common/helpers/sendgrid.helper';
 import { JwtService } from '../common/services/jwt/jwt.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -114,6 +119,43 @@ export class AuthService {
       },
     });
     return { message: 'Logged out' };
+  };
+
+  recoveryPassword = async (email: string): Promise<TokenDto> => {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        email,
+      },
+    });
+    const token = generateToken({
+      uuid: user.uuid,
+      role: user.role,
+      type: 'passwordReset',
+    });
+
+    await recoverPasswordEmail(email, token);
+
+    return { token, expiration: new Date(Date.now() + 3600000) };
+  };
+
+  resetPassword = async (
+    token: string,
+    password: string,
+  ): Promise<MessageResponseDto> => {
+    const verifiedToken = await this.jwtService.verifyToken(
+      token,
+      'passwordReset',
+    );
+    const hash = hashPassword(password);
+    await this.prismaService.user.update({
+      data: {
+        password: hash,
+      },
+      where: {
+        uuid: verifiedToken.uuid,
+      },
+    });
+    return { message: 'Password changed' };
   };
 
   refreshToken = async (token: string): Promise<TokenDto> => {

@@ -43,4 +43,14 @@ export class AuthController {
   refreshToken(@Headers('Authorization') token: string) {
     return this.authService.refreshToken(token);
   }
+
+  @Post('password/recovery')
+  recoveryPassword(@Body() email: string) {
+    return this.authService.recoveryPassword(email);
+  }
+
+  @Post('password/reset')
+  resetPassword(@Body() body: { token: string; password: string }) {
+    return this.authService.resetPassword(body.token, body.password);
+  }
 }

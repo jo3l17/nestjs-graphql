@@ -1,6 +1,6 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { MessageResponseDto } from '../common/dto/message-response.dto';
+import { MessageResponseModel } from 'src/common/model/message-response.model';
 import { AdminGuard } from '../common/guards/admin.guard';
 import { GraphqlAuthGuard } from '../common/guards/graphql.guard';
 import { CategoryService } from './category.service';
@@ -37,11 +37,11 @@ export class CategoryResolver {
   }
 
   @UseGuards(GraphqlAuthGuard, AdminGuard)
-  @Mutation(() => MessageResponseDto)
+  @Mutation(() => MessageResponseModel)
   async deleteCategory(
     @Args('uuid', { type: () => String })
     uuid: string,
-  ): Promise<MessageResponseDto> {
+  ): Promise<MessageResponseModel> {
     return await this.categoryService.deleteCategory(uuid);
   }
 }

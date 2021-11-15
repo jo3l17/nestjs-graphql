@@ -13,6 +13,9 @@ export class ReadImageProductDto {
   @ApiProperty({ description: 'categories of the product' })
   categoryName: string[];
 
+  @ApiProperty({ description: 'product visibility' })
+  active: boolean;
+
   @ApiProperty({ description: 'Images of the product' })
   imagesUrl: string[];
 }

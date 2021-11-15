@@ -2,7 +2,7 @@ import * as sgMail from '@sendgrid/mail';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-const HOST = process.env.HOST || `localhost:${process.env.PORT || 3000}`;
+const HOST = process.env.HOST || `http://localhost:${process.env.PORT || 3000}`;
 
 if (process.env.SENDGRID_API_KEY) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -49,4 +49,18 @@ const emailLikedProducts = async (
   await sgMail.send(msg);
 };
 
-export { sgMail, createEmail, emailLikedProducts, HOST };
+const recoverPasswordEmail = async (to: string, token: string) => {
+  sgMail.setSubstitutionWrappers('{{', '}}');
+  const msg: sgMail.MailDataRequired = {
+    to,
+    from: process.env.SENDGRID_EMAIL,
+    templateId: process.env.SENDGRID_TEMPLATE_ID_RECOVER,
+    dynamicTemplateData: {
+      link: HOST + '/graphql',
+      token,
+    },
+  };
+  await sgMail.send(msg);
+};
+
+export { sgMail, createEmail, emailLikedProducts, HOST, recoverPasswordEmail };

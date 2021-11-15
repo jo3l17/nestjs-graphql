@@ -1,8 +1,7 @@
-import { Field, ObjectType, PartialType } from '@nestjs/graphql';
-import { CreateCategoryInput } from '../inputs/create-category.input';
+import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-export class ResponseCategory extends PartialType(CreateCategoryInput) {
+export class ResponseCategory {
   @Field({ description: 'Category name' })
   readonly name?: string;
 }

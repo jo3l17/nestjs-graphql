@@ -30,9 +30,17 @@ export class ProductResolver {
 
   @Query(() => [Product])
   async products(
-    @Args('first', { type: () => Number, nullable: true })
+    @Args('first', {
+      type: () => Number,
+      nullable: false,
+      description: 'Select first group of elements',
+    })
     first: number,
-    @Args('offset', { type: () => Number, nullable: true })
+    @Args('offset', {
+      type: () => Number,
+      nullable: false,
+      description: 'Omit group of elements',
+    })
     offset: number,
   ): Promise<ProductResponsePagination> {
     return this.productService.findAllPagination(first, offset);

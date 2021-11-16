@@ -357,8 +357,14 @@ export class ProductService {
         active: true,
       },
     });
+
+    let newOffset = offset;
+    if (!newOffset) {
+      newOffset = total;
+    }
+
     const queryNext = await this.prismaService.product.findMany({
-      skip: offset - first,
+      skip: newOffset - first,
       take: 1,
       where: {
         active: true,
@@ -368,7 +374,7 @@ export class ProductService {
       },
     });
     const queryPrev = await this.prismaService.product.findMany({
-      skip: offset - 1,
+      skip: newOffset - 1,
       take: 1,
       where: {
         active: true,

@@ -359,32 +359,12 @@ export class ProductService {
     });
 
     let newOffset = offset;
-    if (!newOffset) {
+    if (!newOffset && newOffset !== 0) {
       newOffset = total;
     }
 
-    const queryNext = await this.prismaService.product.findMany({
-      skip: newOffset - first,
-      take: 1,
-      where: {
-        active: true,
-      },
-      select: {
-        id: true,
-      },
-    });
-    const queryPrev = await this.prismaService.product.findMany({
-      skip: newOffset - 1,
-      take: 1,
-      where: {
-        active: true,
-      },
-      select: {
-        id: true,
-      },
-    });
-    const nextPage = queryNext.length > 0 ? false : true;
-    const prevPage = queryPrev.length > 0 ? false : true;
+    const nextPage = newOffset + first < total ? true : false;
+    const prevPage = newOffset !== 0 ? true : false;
 
     const query = await this.prismaService.product.findMany({
       skip: offset,
@@ -409,7 +389,7 @@ export class ProductService {
         price: product.price.toNumber(),
       }),
     );
-    console.log(response);
+
     return plainToClass(ProductResponsePagination, {
       totalCount: total,
       edges: { node: response },

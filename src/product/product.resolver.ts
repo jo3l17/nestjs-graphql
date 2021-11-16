@@ -32,13 +32,13 @@ export class ProductResolver {
   async products(
     @Args('first', {
       type: () => Number,
-      nullable: false,
+      nullable: true,
       description: 'Select first group of elements',
     })
     first: number,
     @Args('offset', {
       type: () => Number,
-      nullable: false,
+      nullable: true,
       description: 'Omit group of elements',
     })
     offset: number,

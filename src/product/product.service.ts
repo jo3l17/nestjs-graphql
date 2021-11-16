@@ -348,7 +348,7 @@ export class ProductService {
   }
 
   findAllPagination = async (
-    first?: number,
+    first = 5,
     offset?: number,
     uuid = '',
   ): Promise<ProductResponsePagination> => {
@@ -377,8 +377,8 @@ export class ProductService {
         id: true,
       },
     });
-    const nextPage = queryNext.length > 0 ? true : false;
-    const prevPage = queryPrev.length > 0 ? true : false;
+    const nextPage = queryNext.length > 0 ? false : true;
+    const prevPage = queryPrev.length > 0 ? false : true;
 
     const query = await this.prismaService.product.findMany({
       skip: offset,

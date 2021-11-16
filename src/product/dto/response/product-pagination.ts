@@ -4,12 +4,12 @@ import { PageInfo } from '../../../product/model/page-info';
 
 @ObjectType()
 export class ProductResponsePagination {
-  @Field()
+  @Field({ description: 'total of active products' })
   totalCount: number;
 
-  @Field(() => Edges, { nullable: true })
+  @Field(() => Edges, { nullable: true, description: 'Edge of product' })
   edges: Edges;
 
-  @Field(() => PageInfo)
+  @Field(() => PageInfo, { description: 'Extra info of pagination' })
   pageInfo: PageInfo;
 }

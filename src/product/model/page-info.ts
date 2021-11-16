@@ -2,9 +2,9 @@ import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class PageInfo {
-  @Field()
+  @Field({ description: 'Next page' })
   hasNextPage: boolean;
 
-  @Field()
+  @Field({ description: 'Previus page' })
   hasPrevPage: boolean;
 }

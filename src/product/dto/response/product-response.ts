@@ -12,12 +12,12 @@ export class ProductResponse {
   @Field({ description: 'Product likes' })
   likes: number;
 
-  @Field()
+  @Field({ description: 'Name of product' })
   name?: string;
 
-  @Field()
+  @Field({ description: 'Price of product' })
   price?: number;
 
-  @Field(() => ResponseCategory)
+  @Field(() => ResponseCategory, { description: 'Categories of product' })
   category: ResponseCategory;
 }

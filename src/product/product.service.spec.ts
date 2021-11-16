@@ -51,6 +51,48 @@ describe('ProductService', () => {
       stock: 10,
       categoryName: ['category1', 'category2'],
     });
+    await service.createProduct({
+      name: 'test 2',
+      price: 1,
+      active: true,
+      stock: 10,
+      categoryName: ['category1', 'category2'],
+    });
+    await service.createProduct({
+      name: 'test 3',
+      price: 1,
+      active: true,
+      stock: 10,
+      categoryName: ['category1', 'category2'],
+    });
+    await service.createProduct({
+      name: 'test 4',
+      price: 1,
+      active: true,
+      stock: 10,
+      categoryName: ['category1', 'category2'],
+    });
+    await service.createProduct({
+      name: 'test 5',
+      price: 1,
+      active: true,
+      stock: 10,
+      categoryName: ['category1', 'category2'],
+    });
+    await service.createProduct({
+      name: 'test 6',
+      price: 1,
+      active: true,
+      stock: 10,
+      categoryName: ['category1', 'category2'],
+    });
+    await service.createProduct({
+      name: 'test 7',
+      price: 1,
+      active: true,
+      stock: 10,
+      categoryName: ['category1', 'category2'],
+    });
   });
 
   afterAll(async () => {
@@ -78,7 +120,7 @@ describe('ProductService', () => {
     it('should get all products', async () => {
       const products = await service.findAll({} as PaginationQueryDto);
       expect(products).toBeDefined();
-      expect(products.length).toBe(2);
+      expect(products.length).toBe(8);
     });
   });
 
@@ -90,7 +132,7 @@ describe('ProductService', () => {
       });
       const products = await service.findByCategory(category.uuid);
       expect(products).toBeDefined();
-      expect(products.length).toBe(2);
+      expect(products.length).toBe(8);
     });
 
     it('should throw Category not found', async () => {
@@ -278,6 +320,13 @@ describe('ProductService', () => {
         expect(e).toBeInstanceOf(NotFoundException);
         expect(e.message).toBe('Product #not-found not found');
       }
+    });
+  });
+  describe('findAllPagination', () => {
+    it('should return a paginated list', async () => {
+      const products = await service.findAllPagination(5);
+      expect(products.totalCount).toBe(11);
+      expect(products.edges.node.length).toBe(5);
     });
   });
 });

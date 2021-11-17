@@ -73,6 +73,13 @@ describe('AttachmentService', () => {
         service.uploadImages(product.uuid, imgType),
       ).resolves.toHaveProperty('signedUrl');
     });
+
+    it('should return an object with signed url and type image/jpg', async () => {
+      await expect(
+        service.uploadImages(product.uuid, 'image/jpg'),
+      ).resolves.toHaveProperty('signedUrl');
+    });
+
     it('should return uuid not found when set invalid uuid', async () => {
       await expect(service.uploadImages(badUuid, imgType)).rejects.toThrow(
         new NotFoundException(`${badUuid} not found`),

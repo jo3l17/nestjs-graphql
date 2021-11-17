@@ -15,13 +15,13 @@ export class OrderResolver {
 
   @UseGuards(GraphqlAuthGuard)
   @Mutation(() => OrderResponse)
-  async createOrder(@CurrentUser() user: JWTPayload): Promise<OrderResponse> {
+  createOrder(@CurrentUser() user: JWTPayload): Promise<OrderResponse> {
     return this.orderService.createOrder(user.cartUuid);
   }
 
   @UseGuards(GraphqlAuthGuard, AdminGuard)
   @Query(() => [OrderResponse])
-  async orders(
+  orders(
     @Args({
       name: 'pagination',
       nullable: true,
@@ -34,7 +34,7 @@ export class OrderResolver {
 
   @UseGuards(GraphqlAuthGuard)
   @Query(() => OrderResponse)
-  async order(
+  order(
     @Args('orderUuid', { type: () => String }) orderUuid: string,
     @CurrentUser() user: JWTPayload,
   ): Promise<OrderResponse> {

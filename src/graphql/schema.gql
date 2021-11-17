@@ -35,18 +35,39 @@ type ProductResponse {
 
   """Product likes"""
   likes: Float!
+
+  """Name of product"""
   name: String!
+
+  """Price of product"""
   price: Float!
+
+  """Categories of product"""
   category: ResponseCategory!
 }
 
 type Edges {
+  """Node of products"""
   node: [ProductResponse!]
 }
 
 type PageInfo {
+  """Next page"""
   hasNextPage: Boolean!
+
+  """Previus page"""
   hasPrevPage: Boolean!
+}
+
+type ProductResponsePagination {
+  """total of active products"""
+  totalCount: Float!
+
+  """Edge of product"""
+  edges: Edges
+
+  """Extra info of pagination"""
+  pageInfo: PageInfo!
 }
 
 type Attachment {
@@ -68,8 +89,14 @@ type ReadImageProduct {
 
   """Product likes"""
   likes: Float
+
+  """Name of product"""
   name: String
+
+  """Price of product"""
   price: Float
+
+  """Categories of product"""
   category: ResponseCategory
 
   """URL Images of Product"""
@@ -137,7 +164,13 @@ type OrderResponse {
 
 type Query {
   product(uuid: String!): ReadImageProduct!
-  products(offset: Float, first: Float): [Product!]!
+  products(
+    """Omit group of elements"""
+    offset: Float
+
+    """Select first group of elements"""
+    first: Float
+  ): ProductResponsePagination!
   productsByCategory(uuid: String!): [Product!]!
   categories: [Category!]!
   cart: CartResponse!

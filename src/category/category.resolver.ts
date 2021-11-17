@@ -14,34 +14,34 @@ export class CategoryResolver {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Query(() => [Category])
-  async categories() {
+  categories() {
     return this.categoryService.findAll();
   }
 
   @UseGuards(GraphqlAuthGuard, AdminGuard)
   @Mutation(() => Category)
-  async createCategory(
+  createCategory(
     @Args({ name: 'input', type: () => CreateCategoryInput })
     data: CreateCategoryInput,
   ): Promise<ResponseCategory> {
-    return await this.categoryService.createCategory(data);
+    return this.categoryService.createCategory(data);
   }
 
   @UseGuards(GraphqlAuthGuard, AdminGuard)
   @Mutation(() => Category)
-  async updateCategory(
+  updateCategory(
     @Args({ name: 'input', type: () => UpdateCategoryInput })
     data: UpdateCategoryInput,
   ): Promise<ResponseCategory> {
-    return await this.categoryService.updateCategory(data.uuid, data);
+    return this.categoryService.updateCategory(data.uuid, data);
   }
 
   @UseGuards(GraphqlAuthGuard, AdminGuard)
   @Mutation(() => MessageResponseModel)
-  async deleteCategory(
+  deleteCategory(
     @Args('uuid', { type: () => String })
     uuid: string,
   ): Promise<MessageResponseModel> {
-    return await this.categoryService.deleteCategory(uuid);
+    return this.categoryService.deleteCategory(uuid);
   }
 }

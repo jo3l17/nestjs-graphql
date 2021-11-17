@@ -21,15 +21,15 @@ export class ProductResolver {
   constructor(private readonly productService: ProductService) {}
 
   @Query(() => ReadImageProduct)
-  async product(
+  product(
     @Args('uuid', { type: () => String })
     uuid: string,
   ): Promise<ReadImageProduct> {
     return this.productService.findProduct(uuid);
   }
 
-  @Query(() => [Product])
-  async products(
+  @Query(() => ProductResponsePagination)
+  products(
     @Args('first', {
       type: () => Number,
       nullable: true,
@@ -47,7 +47,7 @@ export class ProductResolver {
   }
 
   @Query(() => [Product])
-  async productsByCategory(
+  productsByCategory(
     @Args('uuid', { type: () => String })
     uuidCategory: string,
   ): Promise<ProductResponse[]> {
@@ -56,49 +56,43 @@ export class ProductResolver {
 
   @UseGuards(GraphqlAuthGuard, AdminGuard)
   @Mutation(() => Product)
-  async createProduct(
+  createProduct(
     @Args({ name: 'input', type: () => CreateProductInput })
     data: CreateProductInput,
   ): Promise<ProductResponse> {
-    return await this.productService.createProduct(data);
+    return this.productService.createProduct(data);
   }
 
   @UseGuards(GraphqlAuthGuard, AdminGuard)
   @Mutation(() => Product)
-  async updateProduct(
+  updateProduct(
     @Args({ name: 'input', type: () => UpdateProductInput })
     data: UpdateProductInput,
   ): Promise<ProductResponse> {
-    return await this.productService.updateProductAndCategories(
-      data.uuid,
-      data,
-    );
+    return this.productService.updateProductAndCategories(data.uuid, data);
   }
 
   @UseGuards(GraphqlAuthGuard, AdminGuard)
   @Mutation(() => MessageResponseModel)
-  async deleteProduct(
+  deleteProduct(
     @Args('uuid', { type: () => String })
     uuid: string,
   ): Promise<MessageResponseModel> {
-    return await this.productService.deleteProduct(uuid);
+    return this.productService.deleteProduct(uuid);
   }
 
   @UseGuards(GraphqlAuthGuard, AdminGuard)
   @Mutation(() => Attachment)
-  async getSignedUrl(
+  getSignedUrl(
     @Args({ name: 'input', type: () => ContentTypeInput })
     data: ContentTypeInput,
   ): Promise<AttachmentDto> {
-    return await this.productService.uploadImagesToProduct(
-      data.productUuid,
-      data,
-    );
+    return this.productService.uploadImagesToProduct(data.productUuid, data);
   }
 
   @UseGuards(GraphqlAuthGuard)
   @Mutation(() => MessageResponseModel)
-  async setLike(
+  setLike(
     @CurrentUser() user: JWTPayload,
     @Args('uuid', { type: () => String })
     productUuid: string,
@@ -108,7 +102,7 @@ export class ProductResolver {
 
   @UseGuards(GraphqlAuthGuard)
   @Mutation(() => MessageResponseModel)
-  async deleteLike(
+  deleteLike(
     @CurrentUser() user: JWTPayload,
     @Args('uuid', { type: () => String })
     productUuid: string,

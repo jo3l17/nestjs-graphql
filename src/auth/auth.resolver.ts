@@ -15,11 +15,11 @@ export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
   @Mutation(() => TokenModel)
-  async signup(
+  signup(
     @Args({ name: 'input', type: () => CreateUserInput })
     data: CreateUserInput,
   ): Promise<TokenModel> {
-    return await this.authService.signup(data);
+    return this.authService.signup(data);
   }
 
   @Mutation(() => TokenModel)
@@ -27,40 +27,40 @@ export class AuthResolver {
     @Args({ name: 'input', type: () => LoginUserInput })
     data: LoginUserInput,
   ): Promise<TokenModel> {
-    return await this.authService.signin(data);
+    return this.authService.signin(data);
   }
 
   @Mutation(() => MessageResponseModel)
-  async verifyToken(
+  verifyToken(
     @Args({ name: 'token', type: () => String }) token: string,
   ): Promise<MessageResponseModel> {
-    return await this.authService.verifyToken(token);
+    return this.authService.verifyToken(token);
   }
 
   @UseGuards(GraphqlAuthGuard)
   @Mutation(() => TokenModel)
-  async refreshToken(@TokenHeader() token: string): Promise<TokenModel> {
-    return await this.authService.refreshToken(token);
+  refreshToken(@TokenHeader() token: string): Promise<TokenModel> {
+    return this.authService.refreshToken(token);
   }
 
   @UseGuards(GraphqlAuthGuard)
   @Mutation(() => MessageResponseModel)
-  async logOut(@TokenHeader() token: string): Promise<MessageResponseModel> {
-    return await this.authService.logout(token);
+  logOut(@TokenHeader() token: string): Promise<MessageResponseModel> {
+    return this.authService.logout(token);
   }
 
   @Mutation(() => TokenModel)
-  async recoveryPassword(
+  recoveryPassword(
     @Args({ name: 'email', type: () => String }) email: string,
   ): Promise<TokenModel> {
-    return await this.authService.recoveryPassword(email);
+    return this.authService.recoveryPassword(email);
   }
 
   @Mutation(() => MessageResponseModel)
-  async resetPassword(
+  resetPassword(
     @Args({ name: 'input', type: () => ResetPasswordInput })
     body: ResetPasswordInput,
   ): Promise<MessageResponseModel> {
-    return await this.authService.resetPassword(body.token, body.password);
+    return this.authService.resetPassword(body.token, body.password);
   }
 }

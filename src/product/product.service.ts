@@ -53,6 +53,7 @@ export class ProductService {
         price: product.price.toNumber(),
       }),
     );
+
     return response;
   };
 
@@ -83,6 +84,7 @@ export class ProductService {
         price: product.price.toNumber(),
       }),
     );
+
     return response;
   };
 
@@ -137,6 +139,7 @@ export class ProductService {
       },
       include: { category: { select: { name: true, uuid: true } } },
     });
+
     return plainToClass(ProductResponseDto, {
       ...product,
       price: product.price.toNumber(),
@@ -162,10 +165,9 @@ export class ProductService {
     uuid: string,
     updateProductDto: UpdateProductDto,
   ): Promise<ProductResponseDto> => {
-    // let query = null;
     if (
       !updateProductDto.categoryName ||
-      updateProductDto.categoryName.length == 0
+      updateProductDto.categoryName.length === 0
     ) {
       const product = await this.prismaService.product.update({
         where: {
@@ -181,6 +183,7 @@ export class ProductService {
           category: true,
         },
       });
+
       return plainToClass(ProductResponseDto, {
         ...product,
         price: product.price.toNumber(),
@@ -223,6 +226,7 @@ export class ProductService {
         category: true,
       },
     });
+
     return plainToClass(ProductResponseDto, {
       ...product,
       price: product.price.toNumber(),
@@ -236,6 +240,7 @@ export class ProductService {
           uuid: uuid,
         },
       });
+
       return { message: `Product #${uuid} deleted successfull` };
     } catch (error) {
       throw new NotFoundException(`Product #${uuid} not found`);
@@ -282,6 +287,7 @@ export class ProductService {
       },
       data: { likes: { increment: 1 } },
     });
+
     return { message: `Like in product #${productUuid} created successfull` };
   };
 
@@ -320,6 +326,7 @@ export class ProductService {
       },
       data: { likes: { decrement: 1 } },
     });
+
     return { message: `Like in product #${productUuid} deleted successfull` };
   };
 
@@ -344,12 +351,13 @@ export class ProductService {
       data: { images: { connect: { id: attachment.id } } },
       include: { images: true },
     });
+
     return attachment;
   }
 
   findAllPagination = async (
     first = 5,
-    offset?: number,
+    offset = 0,
     uuid = '',
   ): Promise<ProductResponsePagination> => {
     const total = await this.prismaService.product.count({
@@ -358,13 +366,8 @@ export class ProductService {
       },
     });
 
-    let newOffset = offset;
-    if (!newOffset && newOffset !== 0) {
-      newOffset = total;
-    }
-
-    const nextPage = newOffset + first < total ? true : false;
-    const prevPage = newOffset !== 0 ? true : false;
+    const nextPage = offset + first < total ? true : false;
+    const prevPage = offset !== 0 ? true : false;
 
     const query = await this.prismaService.product.findMany({
       skip: offset,
@@ -383,6 +386,7 @@ export class ProductService {
         likes: true,
       },
     });
+
     const response = query.map((product) =>
       plainToClass(ProductResponse, {
         ...product,

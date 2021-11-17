@@ -57,11 +57,7 @@ export class CartService {
     if (productUpdated.stock <= 3 && productUpdated.stock > 0) {
       const emails = usersLikedProdcut.map((user) => user.email);
       const image = await this.attachmentService.getImages(productUpdated.uuid);
-      let imageUrl = '';
-      if (image.length > 0) {
-        imageUrl = image[0];
-      }
-      console.log(imageUrl);
+      const imageUrl = image[0] || '';
       await emailLikedProducts(
         emails,
         productUpdated.stock,

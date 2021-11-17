@@ -14,6 +14,9 @@ import { PrismaService } from '../prisma/prisma.service';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
+import { use } from 'passport';
+
+jest.mock('../common/helpers/sendgrid.helper');
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -70,6 +73,19 @@ describe('AuthService', () => {
       expect(cart).toBeTruthy();
       expect(result.token).toBeTruthy();
     });
+
+    it('should return a user without a cart', async () => {
+      expect.assertions(1);
+      const user = {
+        email: 'joel@email.com',
+        password: '123456789',
+        name: 'john Doe',
+        role: 'manager',
+      };
+      const result = await service.signup(plainToClass(CreateUserDto, user));
+      expect(result).toBeTruthy();
+    });
+
     it('should return an error if the user already exists', async () => {
       expect.assertions(2);
       const user = {
@@ -86,7 +102,7 @@ describe('AuthService', () => {
       }
     });
   });
-  describe('veryfy function', () => {
+  describe('verify function', () => {
     it('should verify an account', async () => {
       expect.assertions(1);
       const user = await prisma.user.findUnique({
@@ -200,6 +216,28 @@ describe('AuthService', () => {
       });
       const result = await service.logout('Bearer ' + token.token);
       expect(result.message).toBe('Logged out');
+    });
+  });
+
+  describe('recoveryPassword', () => {
+    it('should return a message', async () => {
+      const user = {
+        email: 'joelvaldezangeles@gmail.com',
+      };
+      const result = await service.recoveryPassword(user.email);
+      expect(typeof result.token).toBe('string');
+    });
+  });
+
+  describe('resetPassword', () => {
+    it('should return a message', async () => {
+      const user = {
+        email: 'joelvaldezangeles@gmail.com',
+        password: '123456789',
+      };
+      const token = await (await service.recoveryPassword(user.email)).token;
+      const result = await service.resetPassword(token, user.password);
+      expect(result.message).toBe('Password changed');
     });
   });
 });

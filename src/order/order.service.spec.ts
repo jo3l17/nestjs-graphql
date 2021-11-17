@@ -18,7 +18,6 @@ describe('OrderService', () => {
   let prisma: PrismaService;
   let cartService: CartService;
   let product1: Product;
-  // let product2: Product;
   let user: User;
   let cart: CartResponseDto;
 
@@ -130,6 +129,18 @@ describe('OrderService', () => {
       } as JWTPayload);
       expect(order).toBeDefined();
     });
+
+    it('should return an order to a manager', async () => {
+      const orders = await service.getOrders(
+        plainToClass(PaginationQueryDto, {}),
+      );
+      const order = await service.getOrder(orders[0].uuid, {
+        uuid: user.uuid,
+        role: 'manager',
+      } as JWTPayload);
+      expect(order).toBeDefined();
+    });
+
     it('should throw No Order Found', async () => {
       expect.assertions(2);
       try {
